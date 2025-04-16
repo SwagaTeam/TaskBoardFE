@@ -1,0 +1,18 @@
+.board-columns {
+    display: flex;
+    padding: 0;
+}
+
+.board-column {
+    background: #0F151B;
+    border-radius: 20px;
+    padding: 5px 20px 10px 20px;
+    margin: 10px;
+    width: 226px;
+    min-height: 93vh;
+}
+
+.board-column h1 {
+    font-size: 28px;
+    font-weight: 700;
+}

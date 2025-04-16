@@ -1,0 +1,21 @@
+.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-right: 15px;
+}
+
+.navigation button {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    background: none;
+    border-radius: 18px;
+    padding: 8px 12px 8px 12px;
+    gap: 12px;
+    text-align: left;
+}
+.navigation button:hover {
+    background-color: #122B45;
+    border: none;
+}
