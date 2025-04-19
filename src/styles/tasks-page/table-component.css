@@ -1,0 +1,83 @@
+.table-container {
+    width: 1144px;
+    overflow-x: auto;
+}
+
+.task-table {
+    border-radius: 12px;
+    border: 1px solid #214F7D;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+.task-table th {
+    background-color: #f8f9fa;
+    padding: 16px 15px 35px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+}
+
+.task-table td {
+    padding: 6px 15px;
+    border-top: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.task-table tr:hover {
+    background-color: #0d263e;
+}
+
+.task-table thead tr th {
+    background-color: #122B45;
+    color: white;
+}
+
+.task-id {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #6c757d;
+}
+
+.priority-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.tracker-container {
+    position: relative;
+    height: 6px;
+    background-color: #214F7D;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tracker-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #4dabf7;
+    transition: width 0.3s ease;
+}
+
+.tracker-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #495057;
+    z-index: 1;
+}
+
+.table-avatar {
+    width: 40px;
+    border-radius: 50%;
+}

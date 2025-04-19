@@ -1,66 +1,73 @@
-import { Task } from "../pages/board-page.tsx";
+import {Task} from "../components/tasks-page/table-component.tsx";
+import {Sprint} from "../components/tasks-page/sprint-info-component.tsx";
 
-export const mockTasks: Task[] = [
+export const sprintMock: Sprint = {
+    id: 1,
+    tasks: 7,
+    inProgress: 7,
+    done: 0,
+}
+
+export const tasksMock:Task[] = [
     {
-        id: '1',
-        userName: 'Иван Иванов',
+        id: '#123',
+        task: 'Создать страницу входа',
+        deadline: '22.03',
+        roles: 'Фронтенд',
+        priority: 'Средний',
+        tracker: 50,
         userAvatar: 'https://i.pravatar.cc/150?img=1',
-        description: 'Реализовать авторизацию пользователей',
-        date: '2023-10-15',
-        category: 'todo'
     },
     {
-        id: '2',
-        userName: 'Петр Петров',
+        id: '#124',
+        task: 'Реализовать страницу входа',
+        deadline: '20.03',
+        roles: 'Дизайнер',
+        priority: 'Высокий',
+        tracker: 30,
         userAvatar: 'https://i.pravatar.cc/150?img=2',
-        description: 'Создать компонент навигации',
-        date: '2023-10-16',
-        category: 'in-progress'
     },
     {
-        id: '3',
-        userName: 'Анна Сидорова',
+        id: '#125',
+        task: 'Написание модульных тестов',
+        deadline: '21.03',
+        roles: 'Тестировщик',
+        priority: 'Низкий',
+        tracker: 20,
         userAvatar: 'https://i.pravatar.cc/150?img=3',
-        description: 'Разработать архитектуру БД',
-        date: '2023-10-17',
-        category: 'epics'
     },
     {
-        id: '4',
-        userName: 'Мария Кузнецова',
-        description: 'Написать тесты для API',
-        date: '2023-10-14',
-        category: 'done'
+        id: '#126',
+        task: 'Исправить подключение к бд',
+        deadline: '22.03',
+        roles: 'Бэкэнд',
+        priority: 'Средний',
+        tracker: 40,
     },
     {
-        id: '5',
-        userName: 'Алексей Смирнов',
+        id: '#127',
+        task: 'Развертывание на сервере',
+        deadline: '23.03',
+        roles: 'DevOps',
+        priority: 'Высокий',
+        tracker: 60,
         userAvatar: 'https://i.pravatar.cc/150?img=5',
-        description: 'Оптимизировать загрузку изображений',
-        date: '2023-10-18',
-        category: 'todo'
     },
     {
-        id: '6',
-        userName: 'Елена Васильева',
+        id: '#128',
+        task: 'Обновление документации',
+        deadline: '21.03',
+        roles: 'Аналитик',
+        priority: 'Низкий',
+        tracker: 10,
         userAvatar: 'https://i.pravatar.cc/150?img=6',
-        description: 'Рефакторинг кода',
-        date: '2023-10-13',
-        category: 'done'
     },
     {
-        id: '7',
-        userName: 'Дмитрий Попов',
-        description: 'Интеграция с платежной системой',
-        date: '2023-10-19',
-        category: 'epics'
+        id: '#129',
+        task: 'Сократить время на внедрение функций',
+        deadline: '21.03',
+        roles: 'Менеджер',
+        priority: 'Средний',
+        tracker: 70,
     },
-    {
-        id: '8',
-        userName: 'Ольга Федорова',
-        userAvatar: 'https://i.pravatar.cc/150?img=8',
-        description: 'Добавить темную тему',
-        date: '2023-10-20',
-        category: 'in-progress'
-    }
-];
+]
