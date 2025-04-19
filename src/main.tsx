@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './index.css'
+import './styles/fonts.css';
 
 import {BoardPage} from "./pages/board-page.tsx";
 import {MainPage} from "./pages/main-page.tsx";
