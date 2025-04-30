@@ -8,6 +8,7 @@ import {BoardPage} from "./pages/board-page.tsx";
 import {MainPage} from "./pages/main-page.tsx";
 import {mockTasks} from "./mock/board-mock.ts";
 import {TasksPage} from "./pages/tasks-page.tsx";
+import {LoginPage} from "./pages/autorization/LoginPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path='review' element={<BoardPage tasks={mockTasks}/>} />
                     <Route path='settings' element={<BoardPage tasks={mockTasks}/>} />
                 </Route>
+                <Route path='login' element={<LoginPage/>} />
             </Routes>
         </BrowserRouter>
     </StrictMode>,
