@@ -9,19 +9,26 @@ import {MainPage} from "./pages/main-page.tsx";
 import {mockTasks} from "./mock/board-mock.ts";
 import {TasksPage} from "./pages/tasks-page.tsx";
 import {LoginPage} from "./pages/autorization/LoginPage.tsx";
+import {RegisterPage} from "./pages/autorization/RegisterPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<MainPage/>}>
-                    <Route index element={<Navigate to="board" />} />
-                    <Route path='board' element={<BoardPage tasks={mockTasks}/>} />
-                    <Route path='tasks' element={<TasksPage />} />
-                    <Route path='review' element={<BoardPage tasks={mockTasks}/>} />
-                    <Route path='settings' element={<BoardPage tasks={mockTasks}/>} />
-                </Route>
+                <Route index element={<Navigate to="login" />} />
                 <Route path='login' element={<LoginPage/>} />
+                <Route path='register' element={<RegisterPage/>} />
+
+
+                <Route path='/home' element={<MainPage/>}>
+                    <Route index element={<Navigate to="boards" />} />
+                    <Route path='projects' element={<BoardPage tasks={mockTasks}/>} />
+                    <Route path='boards' element={<BoardPage tasks={mockTasks}/>} />
+                    <Route path='tasks' element={<TasksPage />} />
+                    <Route path='settings' element={<BoardPage tasks={mockTasks}/>} />
+                    <Route path='history' element={<BoardPage tasks={mockTasks}/>} />
+                </Route>
+
             </Routes>
         </BrowserRouter>
     </StrictMode>,

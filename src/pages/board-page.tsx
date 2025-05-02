@@ -1,5 +1,22 @@
+import {useEffect, useState} from "react";
+import {
+    DndContext,
+    DragOverlay,
+    closestCenter,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
+import {
+    SortableContext,
+    arrayMove,
+    verticalListSortingStrategy
+} from "@dnd-kit/sortable";
+
 import {TaskComponent} from "../components/board-page/task-component";
-import {useEffect} from "react";
+import {SortableTask} from "../components/board-page/sortable-task";
+import {useDroppable} from '@dnd-kit/core';
+
 import '../styles/board-page/board-page.css'
 import defaultAvatar from '../assets/user-avatar.webp';
 
@@ -11,66 +28,130 @@ export interface Task {
     date: string;
     category: "todo" | "epics" | "in-progress" | "done";
 }
+
 interface BoardPageProps {
     tasks?: Task[];
 }
 
+
 export const BoardPage = ({tasks = []}: BoardPageProps) => {
-    const todos = tasks.filter(task => task.category === "todo");
-    const epics = tasks.filter(task => task.category === "epics");
-    const inProgress = tasks.filter(task => task.category === "in-progress");
-    const done = tasks.filter(task => task.category === "done");
+    const [taskList, setTaskList] = useState<Task[]>(tasks);
+    const [activeId, setActiveId] = useState<string | null>(null);
+
+    const sensors = useSensors(useSensor(PointerSensor));
+
+    const getTasksByCategory = (category: Task["category"]) =>
+        taskList.filter(task => task.category === category);
+
+    const handleDragStart = (event: any) => {
+        setActiveId(event.active.id);
+    };
+
+    const DroppableColumn = ({id, children}: { id: string, children: React.ReactNode }) => {
+        const {setNodeRef} = useDroppable({id});
+        return (
+            <div ref={setNodeRef} style={{flex: 1, minHeight: "200px"}}>
+                {children}
+            </div>
+        );
+    };
+
+    const handleDragEnd = (event: any) => {
+        const {active, over} = event;
+        setActiveId(null);
+
+        if (!over) return;
+
+        const activeTask = taskList.find(t => t.id === active.id);
+        const isOverTask = taskList.find(t => t.id === over.id);
+        const isOverColumn = categories.some(cat => cat.key === over.id);
+
+        if (!activeTask) return;
+
+        if (isOverColumn) {
+            // Перемещение в пустую колонку
+            setTaskList(prev =>
+                prev.map(task =>
+                    task.id === active.id
+                        ? {...task, category: over.id}
+                        : task
+                )
+            );
+        } else if (isOverTask) {
+            // Перемещение между задачами
+            if (activeTask.category !== isOverTask.category) {
+                setTaskList(prev =>
+                    prev.map(task =>
+                        task.id === active.id
+                            ? {...task, category: isOverTask.category}
+                            : task
+                    )
+                );
+            } else {
+                const tasksInCategory = getTasksByCategory(activeTask.category);
+                const oldIndex = tasksInCategory.findIndex(t => t.id === active.id);
+                const newIndex = tasksInCategory.findIndex(t => t.id === over.id);
+                const newOrdered = arrayMove(tasksInCategory, oldIndex, newIndex);
+
+                const updatedTasks = taskList.filter(t => t.category !== activeTask.category);
+                setTaskList([...updatedTasks, ...newOrdered]);
+            }
+        }
+    };
 
     useEffect(() => {
-        document.title = "Доска"
+        document.title = "Доска";
     }, []);
 
+    const categories: { label: string; key: Task["category"] }[] = [
+        {label: "Сделать", key: "todo"},
+        {label: "В процессе", key: "in-progress"},
+        {label: "Выполнены", key: "done"},
+    ];
+
+    const activeTask = taskList.find(t => t.id === activeId);
+
     return (
+        <DndContext
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            sensors={sensors}
+        >
             <div className="board-columns">
-                <div className="board-column">
-                    <h1>Сделать</h1>
-                    {todos.map(_ => (
-                        <TaskComponent
-                            name={_.userName}
-                            avatar={_.userAvatar || defaultAvatar}
-                            taskText={_.description}
-                            date={_.date}
-                        />
-                    ))}
-                </div>
-                <div className="board-column">
-                    <h1>Эпики</h1>
-                    {epics.map(_ => (
-                        <TaskComponent
-                            name={_.userName}
-                            avatar={_.userAvatar || defaultAvatar}
-                            taskText={_.description}
-                            date={_.date}
-                        />
-                    ))}
-                </div>
-                <div className="board-column">
-                    <h1>В процессе</h1>
-                    {inProgress.map(_ => (
-                        <TaskComponent
-                            name={_.userName}
-                            avatar={_.userAvatar || defaultAvatar}
-                            taskText={_.description}
-                            date={_.date}
-                        />
-                    ))}
-                </div>
-                <div className="board-column">
-                    <h1>Выполнены</h1>
-                    {done.map(_ => (
-                        <TaskComponent
-                            name={_.userName}
-                            avatar={_.userAvatar || defaultAvatar}
-                            taskText={_.description}
-                            date={_.date}
-                        />
-                    ))}
-                </div>
+                {categories.map(({label, key}) => {
+                    const tasks = getTasksByCategory(key);
+                    return (
+                        <div className="board-column" key={key}>
+                            <h1>{label}</h1>
+                            <DroppableColumn id={key}>
+                                <SortableContext
+                                    items={tasks.map(t => t.id)}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {tasks.map(task => (
+                                        <SortableTask key={task.id} task={task} activeId={activeId} />
+
+                                    ))}
+                                </SortableContext>
+                            </DroppableColumn>
+                        </div>
+                    );
+                })}
+                <button className="add-column-button" onClick={() => {
+                }}>Добавить колонку</button>
             </div>
-    )
-}
+
+            <DragOverlay>
+                {activeTask ? (
+                    <TaskComponent
+                        name={activeTask.userName}
+                        avatar={activeTask.userAvatar || defaultAvatar}
+                        taskText={activeTask.description}
+                        date={activeTask.date}
+                    />
+                ) : null}
+            </DragOverlay>
+        </DndContext>
+    );
+};

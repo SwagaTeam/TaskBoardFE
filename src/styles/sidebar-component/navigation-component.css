@@ -7,15 +7,20 @@
 
 .navigation button {
     color: white;
-    font-size: 18px;
-    font-weight: 500;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
     background: none;
     border-radius: 18px;
-    padding: 8px 12px 8px 12px;
+    padding: 10px 12px;
     gap: 12px;
     text-align: left;
 }
 .navigation button:hover {
     background-color: #122B45;
     border: none;
+}
+
+.navigation button.active {
+    background-color: #122B45;
 }

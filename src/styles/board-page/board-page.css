@@ -16,3 +16,20 @@
     font-size: 28px;
     font-weight: 700;
 }
+
+.add-column-button {
+    font-family: Inter, sans-serif;
+    align-self: flex-start;
+    background: #122B45;
+    color: white;
+    border-radius: 8px;
+    padding: 7px;
+    width: 226px;
+    font-size: 14px;
+    font-weight: 200;
+    margin-top: 10px;
+}
+
+.add-column-button:hover {
+    background-color: #10263d;
+}

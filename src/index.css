@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, sans-serif;
+  font-family: Inter, sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
 
@@ -43,6 +43,10 @@ button {
 
 button:focus,
 button:focus-visible {
+  outline: none;
+}
+
+input:focus{
   outline: none;
 }
 
