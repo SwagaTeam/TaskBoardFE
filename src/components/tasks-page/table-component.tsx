@@ -19,7 +19,7 @@ export const TableComponent = () => {
             <table className="task-table">
                 <thead>
                 <tr>
-                    <th>Задача</th>
+                    <th style={{textAlign: 'left'}}>Задача</th>
                     <th style={{width: "70px"}}>Дедлайн</th>
                     <th style={{width: "70px"}}></th>
                     <th style={{width: "170px"}}>Роли</th>
@@ -38,17 +38,16 @@ export const TableComponent = () => {
                 <span>
                   {task.priority}
                 </span>
-                        </td>
-                        <td>
-                            <div className="tracker-container">
-                                <div
-                                    className="tracker-bar"
-                                    style={{width: `${task.tracker}%`}}
-                                ></div>
+                    </td>
+                    <td>
+                        <div className="tracker-wrapper">
+                            <div className="tracker-bar">
+                                <div className="tracker-fill" style={{ width: `${task.tracker}%` }}></div>
                             </div>
-                            <span>{task.tracker}</span>
-                        </td>
-                    </tr>
+                            <span className="tracker-bar-value">{task.tracker}</span>
+                        </div>
+                    </td>
+                </tr>
                 ))}
                 </tbody>
             </table>

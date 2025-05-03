@@ -18,7 +18,9 @@ export const MainPage = () => {
         <div className="main-page-root">
             <div className="main-page">
                 <SidebarComponent name={user?.name || 'Без имени'} />
-                <Outlet/>
+                <div style={{width: '1150px'}}>
+                    <Outlet/>
+                </div>
             </div>
         </div>
     )
