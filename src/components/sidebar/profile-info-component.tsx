@@ -6,7 +6,7 @@ interface ProfileInfoProps {
     name?: string;
 }
 
-export const ProfileInfoComponent = ({ avatar = userAvatar, name = "Без имени"}: ProfileInfoProps) => {
+export const ProfileInfoComponent = ({ avatar = userAvatar, name='Без имени'}: ProfileInfoProps) => {
     return (
         <div className="profile-info">
             <img className="profile-image" src={avatar} alt="Ваш профиль" />

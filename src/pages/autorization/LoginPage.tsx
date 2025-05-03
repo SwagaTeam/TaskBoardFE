@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/autorization/login-page.css';
 
 export const LoginPage: React.FC = () => {
@@ -8,6 +8,10 @@ export const LoginPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Логин';
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,9 +80,10 @@ export const LoginPage: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <button type="button" className="forgot-password" >Забыли пароль?</button>
+                        <button type="button" className="forgot-password">
+                            Забыли пароль?
+                        </button>
                     </div>
-
 
                     <button type="submit" className="login-button" disabled={loading}>
                         {loading ? 'Загрузка...' : 'Вход'}
@@ -86,7 +91,12 @@ export const LoginPage: React.FC = () => {
 
                     <div className="signup-link">
                         <p>У вас еще нет учетной записи?</p>
-                        <button className={"auth-navigate-btn"} onClick={() => navigate('/register')}>Создать аккаунт</button>
+                        <button
+                            className="auth-navigate-btn"
+                            onClick={() => navigate('/register')}
+                        >
+                            Создать аккаунт
+                        </button>
                     </div>
                 </form>
             </div>

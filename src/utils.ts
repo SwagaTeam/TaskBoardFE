@@ -4,7 +4,6 @@
  * @returns Отформатированная дата в виде 'D MMM' (например: '16 окт')
  */
 export const formatDateToDayMonth = (dateString: string): string => {
-    // Проверка на валидность входной строки
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
         throw new Error('Неверный формат даты. Ожидается YYYY-MM-DD');
     }

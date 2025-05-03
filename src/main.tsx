@@ -10,10 +10,13 @@ import {mockTasks} from "./mock/board-mock.ts";
 import {TasksPage} from "./pages/tasks-page.tsx";
 import {LoginPage} from "./pages/autorization/LoginPage.tsx";
 import {RegisterPage} from "./pages/autorization/RegisterPage.tsx";
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
+            <Provider store={store}>
             <Routes>
                 <Route index element={<Navigate to="login" />} />
                 <Route path='login' element={<LoginPage/>} />
@@ -30,6 +33,7 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
 
             </Routes>
+            </Provider>
         </BrowserRouter>
     </StrictMode>,
 )

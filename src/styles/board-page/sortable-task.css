@@ -1,0 +1,21 @@
+.sortable-task {
+    position: relative;
+}
+
+.drag-handle {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    z-index: 10;
+    cursor: grab;
+    background-color: #294460;
+    border-radius: 4px;
+    padding: 4px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.sortable-task:hover .drag-handle {
+    display: flex;
+}

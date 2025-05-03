@@ -5,20 +5,20 @@ import {
     closestCenter,
     PointerSensor,
     useSensor,
-    useSensors
+    useSensors,
+    useDroppable,
 } from "@dnd-kit/core";
-import {
-    SortableContext,
-    arrayMove,
-    verticalListSortingStrategy
-} from "@dnd-kit/sortable";
+import {SortableContext, arrayMove, verticalListSortingStrategy} from "@dnd-kit/sortable";
 
 import {TaskComponent} from "../components/board-page/task-component";
 import {SortableTask} from "../components/board-page/sortable-task";
-import {useDroppable} from '@dnd-kit/core';
+import {TaskSidebar} from "../components/board-page/task-sidebar";
+import {BoardSelectPanel} from "../components/board-page/board-select-panel.tsx";
+import {boards} from "../mock/boards-mock.ts";
 
-import '../styles/board-page/board-page.css'
+import '../styles/board-page/board-page.css';
 import defaultAvatar from '../assets/user-avatar.webp';
+
 
 export interface Task {
     id: string;
@@ -33,10 +33,10 @@ interface BoardPageProps {
     tasks?: Task[];
 }
 
-
 export const BoardPage = ({tasks = []}: BoardPageProps) => {
     const [taskList, setTaskList] = useState<Task[]>(tasks);
     const [activeId, setActiveId] = useState<string | null>(null);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
     const sensors = useSensors(useSensor(PointerSensor));
 
@@ -47,38 +47,26 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
         setActiveId(event.active.id);
     };
 
-    const DroppableColumn = ({id, children}: { id: string, children: React.ReactNode }) => {
-        const {setNodeRef} = useDroppable({id});
-        return (
-            <div ref={setNodeRef} style={{flex: 1, minHeight: "200px"}}>
-                {children}
-            </div>
-        );
-    };
-
     const handleDragEnd = (event: any) => {
         const {active, over} = event;
         setActiveId(null);
-
         if (!over) return;
 
         const activeTask = taskList.find(t => t.id === active.id);
-        const isOverTask = taskList.find(t => t.id === over.id);
-        const isOverColumn = categories.some(cat => cat.key === over.id);
-
         if (!activeTask) return;
 
+        const isOverColumn = categories.some(cat => cat.key === over.id);
+        const isOverTask = taskList.find(t => t.id === over.id);
+
         if (isOverColumn) {
-            // Перемещение в пустую колонку
             setTaskList(prev =>
                 prev.map(task =>
                     task.id === active.id
-                        ? {...task, category: over.id}
+                        ? {...task, category: over.id as Task["category"]}
                         : task
                 )
             );
         } else if (isOverTask) {
-            // Перемещение между задачами
             if (activeTask.category !== isOverTask.category) {
                 setTaskList(prev =>
                     prev.map(task =>
@@ -92,7 +80,6 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
                 const oldIndex = tasksInCategory.findIndex(t => t.id === active.id);
                 const newIndex = tasksInCategory.findIndex(t => t.id === over.id);
                 const newOrdered = arrayMove(tasksInCategory, oldIndex, newIndex);
-
                 const updatedTasks = taskList.filter(t => t.category !== activeTask.category);
                 setTaskList([...updatedTasks, ...newOrdered]);
             }
@@ -111,7 +98,18 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
 
     const activeTask = taskList.find(t => t.id === activeId);
 
+    const DroppableColumn = ({id, children}: { id: string, children: React.ReactNode }) => {
+        const {setNodeRef} = useDroppable({id});
+        return (
+            <div ref={setNodeRef} style={{flex: 1, minHeight: "200px"}}>
+                {children}
+            </div>
+        );
+    };
+
     return (
+        <div style={{display: "flex"}}>
+        <BoardSelectPanel boards={boards}/>
         <DndContext
             collisionDetection={closestCenter}
             onDragStart={handleDragStart}
@@ -119,7 +117,7 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
             sensors={sensors}
         >
             <div className="board-columns">
-                {categories.map(({label, key}) => {
+                {categories.map(({ label, key }) => {
                     const tasks = getTasksByCategory(key);
                     return (
                         <div className="board-column" key={key}>
@@ -129,18 +127,28 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
                                     items={tasks.map(t => t.id)}
                                     strategy={verticalListSortingStrategy}
                                 >
+                                    {key !== 'done' && (
+                                        <button className="column-add-task-btn">Добавить задачу</button>
+                                    )}
                                     {tasks.map(task => (
-                                        <SortableTask key={task.id} task={task} activeId={activeId} />
-
+                                        <SortableTask
+                                            key={task.id}
+                                            task={task}
+                                            activeId={activeId}
+                                            onClick={() => setSelectedTask(task)}
+                                        />
                                     ))}
                                 </SortableContext>
                             </DroppableColumn>
                         </div>
                     );
                 })}
-                <button className="add-column-button" onClick={() => {
-                }}>Добавить колонку</button>
+                {/* <button className="add-column-button" onClick={() => {}}>Добавить колонку</button> */}
             </div>
+
+            {selectedTask && (
+                <TaskSidebar task={selectedTask} onClose={() => setSelectedTask(null)} />
+            )}
 
             <DragOverlay>
                 {activeTask ? (
@@ -153,5 +161,6 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
                 ) : null}
             </DragOverlay>
         </DndContext>
+        </div>
     );
 };

@@ -15,6 +15,23 @@
 .board-column h1 {
     font-size: 28px;
     font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.column-add-task-btn {
+    background-color: #122B454D;
+    border-radius: 8px;
+    padding: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    font-weight: 100;
+    width: 100%;
+    cursor: pointer;
+}
+
+.column-add-task-btn:hover {
+    background-color: rgba(30, 64, 99, 0.3);
+
 }
 
 .add-column-button {
