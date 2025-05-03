@@ -32,7 +32,6 @@ export const SortableTask = ({ task, activeId, onClick }: SortableTaskProps) => 
 
     return (
         <div ref={setNodeRef} style={style}  className="sortable-task">
-            {/* Drag handle в левом верхнем углу */}
             <div
                 {...attributes}
                 {...listeners}
@@ -41,8 +40,6 @@ export const SortableTask = ({ task, activeId, onClick }: SortableTaskProps) => 
             >
                 <GripVertical size={14} color="#b6b6b6"/>
             </div>
-
-            {/* Вся карточка — клик открывает боковую панель */}
             <div onClick={onClick}>
                 <TaskComponent
                     name={task.userName}

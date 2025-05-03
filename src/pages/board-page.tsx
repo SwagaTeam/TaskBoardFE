@@ -15,6 +15,7 @@ import {SortableTask} from "../components/board-page/sortable-task";
 import {TaskSidebar} from "../components/board-page/task-sidebar";
 import {BoardSelectPanel} from "../components/board-page/board-select-panel.tsx";
 import {boards} from "../mock/boards-mock.ts";
+import {SortButton} from "../components/board-page/sort-button.tsx";
 
 import '../styles/board-page/board-page.css';
 import defaultAvatar from '../assets/user-avatar.webp';
@@ -121,7 +122,30 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
                     const tasks = getTasksByCategory(key);
                     return (
                         <div className="board-column" key={key}>
-                            <h1>{label}</h1>
+                            <div style={{display: "flex"}}>
+                                <h1>{label}</h1>
+
+                                <SortButton onSortChange={(sortType) => {
+                                    setTaskList(prev => {
+                                        // 1. Отделяем задачи этой колонки
+                                        const currentTasks = prev.filter(task => task.category === key);
+                                        const otherTasks = prev.filter(task => task.category !== key);
+
+                                        // 2. Сортируем только текущие
+                                        const sorted = [...currentTasks].sort((b, a) => {
+                                            if (sortType === 'date') {
+                                                return new Date(b.date).getTime() - new Date(a.date).getTime();
+                                            }
+                                            return 0; // default: без сортировки
+                                        });
+
+                                        // 3. Объединяем в новое состояние
+                                        return [...otherTasks, ...sorted];
+                                    });
+                                }} />
+                            </div>
+
+
                             <DroppableColumn id={key}>
                                 <SortableContext
                                     items={tasks.map(t => t.id)}
