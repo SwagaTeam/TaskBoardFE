@@ -50,34 +50,6 @@
     font-weight: 500;
 }
 
-.tracker-container {
-    position: relative;
-    height: 6px;
-    background-color: #214F7D;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.tracker-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background-color: #4dabf7;
-    transition: width 0.3s ease;
-}
-
-.tracker-value {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.8em;
-    font-weight: 500;
-    color: #495057;
-    z-index: 1;
-}
-
 .table-avatar {
     width: 40px;
     border-radius: 50%;
@@ -92,7 +64,7 @@
 
 .tracker-bar {
     flex-grow: 1;
-    height: 8px;
+    height: 6px;
     background-color: #214F7D;
     border-radius: 4px;
     overflow: hidden;
