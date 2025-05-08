@@ -21,7 +21,7 @@ export const RegisterPage: React.FC = () => {
         setError(null);
 
         try {
-            const response:AxiosResponse = await axios.post(`${API_URL}/auth/register`, {
+            const response:AxiosResponse = await axios.post(`/api/auth/register`, {
                 username: username,
                 email: email,
                 password: password,

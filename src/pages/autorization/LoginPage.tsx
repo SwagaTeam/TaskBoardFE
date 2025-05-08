@@ -24,7 +24,7 @@ export const LoginPage: React.FC = () => {
                 password,
             }).toString();
 
-            const url = `${API_URL}/auth/login?${queryParams}`;
+            const url = `/api/auth/login?${queryParams}`;
 
             const response = await fetch(url, {
                 method: 'POST',
