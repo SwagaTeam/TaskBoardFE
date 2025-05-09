@@ -19,18 +19,15 @@ export const LoginPage: React.FC = () => {
         setError(null);
 
         try {
-            const queryParams = new URLSearchParams({
-                email,
-                password,
-            }).toString();
-
-            const url = `/api/auth/login?${queryParams}`;
+            const url = '/api/auth/login';
 
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
+                    'Accept': 'text/plain',
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
@@ -45,6 +42,7 @@ export const LoginPage: React.FC = () => {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
+            console.log(data);
             navigate('/home');
         } catch (err: unknown) {
             setError('Произошла ошибка при входе.');
