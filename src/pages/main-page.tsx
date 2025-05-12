@@ -1,27 +1,28 @@
-import {SidebarComponent} from "../components/sidebar/sidebar-component.tsx";
-import {Outlet} from "react-router-dom";
+import { SidebarComponent } from "../components/sidebar/sidebar-component.tsx";
+import { Outlet } from "react-router-dom";
 import { useEffect } from 'react';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchCurrentUser } from '../store/userSlice';
-import { useAppSelector } from '../store/hooks';
 import '../styles/main-page.css'
 
 export const MainPage = () => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user.user);
+    const user = useAppSelector(state => state.user);
 
     useEffect(() => {
         dispatch(fetchCurrentUser());
     }, [dispatch]);
 
+    const sidebarName = user.user?.username || '';
+
     return (
         <div className="main-page-root">
             <div className="main-page">
-                <SidebarComponent name={user?.name || 'Без имени'} />
-                <div style={{width: '1150px'}}>
+                <SidebarComponent name={sidebarName} />
+                <div style={{ width: '1150px' }}>
                     <Outlet/>
                 </div>
             </div>
         </div>
-    )
+    );
 }
