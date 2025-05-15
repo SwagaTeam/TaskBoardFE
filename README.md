@@ -1,54 +1,49 @@
-# React + TypeScript + Vite
+# Разработка платформы для управления задачами команды разработки
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## О проекте
 
-Currently, two official plugins are available:
+Проект представляет собой веб приложение для управления задачами команды разработки. Цель — упростить управление задачами и повысить эффективность командной работы за счёт автоматизации процессов и сбора метрик.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Основные возможности
+- Управление задачами команды проекта (по аналогии с Jira и другими трекерами).
+- Визуализация планирования с помощью диаграмм Ганта и Burndown chart.
+- Движение артефактов по рабочему процессу и сбор метрик эффективности.
+- Интеграция с внешними системами и сбор расширенных метрик.
 
-## Expanding the ESLint configuration
+### Уровни результата
+- **Минимальный**: MVP с базовым функционалом управления задачами.
+- **Базовый**: Добавлены диаграммы Ганта и Burndown chart.
+- **Оптимальный**: Сбор метрик эффективности команды и интеграция с другими системами.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Технологический стек
+
+- React
+- TypeScript
+- Vite
+
+---
+
+## Команда проекта
+
+- [Беликов Никита Васильевич](https://t.me/holo21k) – Backend-разработчик  
+- [Егоров Евгений Андреевич](https://t.me/callme_jewel) – Frontend-разработчик  
+- [Погирейчик Андрей Александрович](https://t.me/PuppyHater) – Тимлид  
+- [Уварова Ольга Александровна](https://t.me/ol_rey) – Дизайнер (опционально)  
+- [Якшибаев Данил Димович](https://t.me/sapkjfl) – Backend-разработчик  
+
+---
+
+## Цели проекта
+
+- Создать минимально жизнеспособный продукт (MVP) для управления задачами с базовым функционалом.
+- Реализовать диаграммы Ганта и Burndown chart для визуализации прогресса.
+- Автоматизировать сбор метрик эффективности команды на основе движения задач по статусам.
+- Обеспечить масштабируемую микросервисную архитектуру с возможностью интеграции.
+
+---
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+ docker compose -f docker-compose.base.yml  -f docker/project-service/docker-compose.yml -f docker/user-service/docker-compose.yml -f docker/analytics-service/docker-compose.yml up
+ ```
