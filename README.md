@@ -20,6 +20,7 @@
 ## Технологический стек
 
 - React
+- Redux
 - TypeScript
 - Vite
 
