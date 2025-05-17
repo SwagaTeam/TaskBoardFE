@@ -20,8 +20,11 @@
 ## Технологический стек
 
 - React
+- Redux
 - TypeScript
 - Vite
+- axios
+- dnd-kit
 
 ---
 
