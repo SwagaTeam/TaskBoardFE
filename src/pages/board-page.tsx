@@ -127,19 +127,16 @@ export const BoardPage = ({tasks = []}: BoardPageProps) => {
 
                                 <SortButton onSortChange={(sortType) => {
                                     setTaskList(prev => {
-                                        // 1. Отделяем задачи этой колонки
                                         const currentTasks = prev.filter(task => task.category === key);
                                         const otherTasks = prev.filter(task => task.category !== key);
 
-                                        // 2. Сортируем только текущие
                                         const sorted = [...currentTasks].sort((b, a) => {
                                             if (sortType === 'date') {
                                                 return new Date(b.date).getTime() - new Date(a.date).getTime();
                                             }
-                                            return 0; // default: без сортировки
+                                            return 0;
                                         });
 
-                                        // 3. Объединяем в новое состояние
                                         return [...otherTasks, ...sorted];
                                     });
                                 }} />

@@ -1,0 +1,94 @@
+.project-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.project-modal {
+    background-color: #122B45;
+    color: #f0f0f0;
+    padding: 24px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    font-family: sans-serif;
+}
+
+.project-modal h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.project-modal input,
+.project-modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+    border: 1px solid #444;
+    background-color: #141F29;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.project-modal textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.project-modal input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.project-modal label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    color: #ccc;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-buttons button[type="submit"] {
+    background-color: #184998;
+    color: white;
+}
+
+.modal-buttons button[type="submit"]:hover {
+    background-color: #2760b8;
+}
+
+.modal-buttons button[type="button"] {
+    background-color: #333;
+    color: #ccc;
+}
+
+.modal-buttons button[type="button"]:hover {
+    background-color: #444;
+}

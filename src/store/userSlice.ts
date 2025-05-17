@@ -34,7 +34,7 @@ export const fetchCurrentUser = createAsyncThunk<User, void, { rejectValue: stri
                 method: 'GET',
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiMjkzN2ExY2QtNzk2My00NGQ4LWE2MjItZDAzZTJlMGEyZjhmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVVNFUiIsImV4cCI6MTc0NzA2NjAxNiwiaXNzIjoiVGFza0JvYXJkIiwiYXVkIjoiVGFza0JvYXJkQXVkaWVuY2UifQ.fclbuvlN2HBgNHXNqzJKXBDc8LbodR5Z0isrsR42iZI`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
@@ -49,11 +49,11 @@ export const fetchCurrentUser = createAsyncThunk<User, void, { rejectValue: stri
                 return rejectWithValue('userId не найден');
             }
 
-            const userResp = await fetch(`/api/user/${userId}`, {
+            const userResp = await fetch(`/api/user/current/${userId}`, {
                 method: 'GET',
                 headers: {
                     'accept': 'application/json',
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiMjkzN2ExY2QtNzk2My00NGQ4LWE2MjItZDAzZTJlMGEyZjhmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVVNFUiIsImV4cCI6MTc0NzA2NjAxNiwiaXNzIjoiVGFza0JvYXJkIiwiYXVkIjoiVGFza0JvYXJkQXVkaWVuY2UifQ.fclbuvlN2HBgNHXNqzJKXBDc8LbodR5Z0isrsR42iZI`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
