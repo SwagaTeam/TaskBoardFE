@@ -23,6 +23,8 @@
 - Redux
 - TypeScript
 - Vite
+- axios
+- dnd-kit
 
 ---
 
