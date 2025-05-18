@@ -1,9 +1,11 @@
 networks:
   swaga-network:
+    driver: bridge
+    name: swaga-network
 
 services:
   client:
-    container_name: -client
+    container_name: client
     build:
       context: .
       dockerfile: ./Dockerfile
