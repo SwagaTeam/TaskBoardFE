@@ -1,10 +1,10 @@
-.project-table-wrapper {
+.board-table-wrapper {
     margin-top: 20px;
     width: 1144px;
     overflow-x: auto;
 }
 
-.project-table {
+.board-table {
     border-radius: 12px;
     border: 1px solid #214F7D;
     border-collapse: separate;
@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 
-.project-table th {
+.board-table th {
     background-color:#122B45;
     padding: 16px 15px 16px 15px;
     text-align: left;
@@ -20,44 +20,32 @@
     font-size: 15px;
 }
 
-.project-table td {
-    padding: 6px 15px;
+.board-table td {
+    padding: 18px 15px;
     border-top: 1px solid #dee2e6;
     vertical-align: middle;
     font-weight: 300;
     font-size: 15px;
 }
 
-.project-table tr:hover {
-    background-color: #14273a;
-}
-
-.project-item-menu-btn {
+.board-item-menu-btn {
     background: none;
     border: none;
     color: white;
     cursor: pointer;
 }
-.project-item-menu-btn:hover {
+.board-item-menu-btn:hover {
     color: #95b4ec;
 }
 
-.project-table-status {
+.board-table-status {
     background-color: #122B45;
     padding: 6px 0 5px 15px;
     border-radius: 10px;
     margin-right: 10px;
 }
 
-
-.search-container {
-    margin-top: 25px;
-    position: relative;
-    width: fit-content;
-    display: inline-block;
-}
-
-.project-search-input {
+.board-search-input {
     border: 1px solid #D9D9D980;
     background: none;
     padding: 8px 15px;
@@ -66,20 +54,6 @@
     border-radius: 10px;
     color: white;
 }
-.search-icon {
-    position: absolute;
-    right: 8px;
-    top: 27%;
-    transform: translateY(-50%);
-    color: #888;
-    pointer-events: none;
-}
-
-
-
-
-
-
 
 .status-badge {
     padding: 4px 10px;

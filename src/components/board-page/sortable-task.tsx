@@ -41,12 +41,7 @@ export const SortableTask = ({ task, activeId, onClick }: SortableTaskProps) => 
                 <GripVertical size={14} color="#b6b6b6"/>
             </div>
             <div onClick={onClick}>
-                <TaskComponent
-                    name={task.userName}
-                    avatar={task.userAvatar || defaultAvatar}
-                    taskText={task.description}
-                    date={task.date}
-                />
+                <TaskComponent task={task}/>
             </div>
         </div>
     );

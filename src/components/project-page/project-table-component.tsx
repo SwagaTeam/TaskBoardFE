@@ -25,6 +25,8 @@ type Project = {
     startDate: string;
     expectedEndDate: string;
     priority: number;
+    status: string;
+    head: string;
 };
 
 interface ProjectTableProps {
@@ -66,9 +68,9 @@ export const ProjectTableComponent: React.FC<ProjectTableProps> = ({ search }) =
                 <thead>
                 <tr>
                     <th style={{ width: "252px" }}>Наименование</th>
-                    <th style={{ width: "156px" }}>Приватный</th>
+                    <th style={{ width: "180px" }}>Статус</th>
                     <th style={{ width: "214px" }}>Дата</th>
-                    <th style={{ width: "232px" }}>Приоритет</th>
+                    <th style={{ width: "232px" }}>Руководитель</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -80,14 +82,14 @@ export const ProjectTableComponent: React.FC<ProjectTableProps> = ({ search }) =
                         style={{ cursor: "pointer" }}
                     >
                         <td>{proj.name}</td>
-                        <td>{proj.isPrivate ? "Да" : "Нет"}</td>
+                        <td><p className='project-table-status'>{proj.status}</p></td>
                         <td>
                             {formatDateRangeWithoutYear(
                                 proj.startDate,
                                 proj.expectedEndDate
                             )}
                         </td>
-                        <td>{proj.priority}</td>
+                        <td>{proj.head}</td>
                         <td>
                             <button
                                 className="project-item-menu-btn"

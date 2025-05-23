@@ -22,7 +22,7 @@ interface SidebarComponentProps {
 
 export const SidebarComponent = ({ avatar = defaultAvatar, name }: SidebarComponentProps) => {
     const navigate = useNavigate();
-    const [activePath, setActivePath] = useState("boards");
+    const [activePath, setActivePath] = useState("projects");
 
     return (
         <div className='sidebar'>

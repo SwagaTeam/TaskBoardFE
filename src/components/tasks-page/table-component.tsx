@@ -1,5 +1,5 @@
-import '../../styles/tasks-page/table-component.css'
-import {tasksMock} from "../../mock/tasks-mock.ts";
+import { useEffect, useState } from 'react';
+import '../../styles/tasks-page/table-component.css';
 import defaultAvatar from '../../assets/user-avatar.webp';
 
 export interface Task {
@@ -13,6 +13,35 @@ export interface Task {
 }
 
 export const TableComponent = () => {
+    const [tasks, setTasks] = useState<Task[]>([]);
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch('/api/item/get');
+                if (!response.ok) {
+                    throw new Error('Ошибка при получении задач');
+                }
+                const data = await response.json();
+
+                const formattedTasks: Task[] = data.map((item: any) => ({
+                    id: item.businessId,
+                    task: item.title,
+                    deadline: new Date(item.expectedEndDate).toLocaleDateString(),
+                    roles: item.status?.name || 'Неизвестно',
+                    priority: item.priorityText,
+                    tracker: Math.floor(Math.random() * 101),
+                    userAvatar: defaultAvatar,
+                }));
+
+                setTasks(formattedTasks);
+            } catch (error) {
+                console.error('Ошибка при загрузке задач:', error);
+            }
+        };
+
+        fetchTasks();
+    }, []);
 
     return (
         <div className="table-container">
@@ -28,26 +57,28 @@ export const TableComponent = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {tasksMock.map((task) => (
+                {tasks.map((task) => (
                     <tr key={task.id}>
                         <td>{task.id} {task.task}</td>
                         <td style={{color: '#80ADDB'}}>{task.deadline}</td>
                         <td><img className='table-avatar' src={task.userAvatar || defaultAvatar} alt="Аватарка"/></td>
-                        <td><p style={{padding: "5px 16px 10px 16px", backgroundColor: "#122B45", height: "20px", borderRadius: "18px"}}>{task.roles}</p></td>
                         <td>
-                <span>
-                  {task.priority}
-                </span>
-                    </td>
-                    <td>
-                        <div className="tracker-wrapper">
-                            <div className="tracker-bar">
-                                <div className="tracker-fill" style={{ width: `${task.tracker}%` }}></div>
+                            <p style={{padding: "5px 16px 10px 16px", backgroundColor: "#122B45", height: "20px", borderRadius: "18px"}}>
+                                {task.roles}
+                            </p>
+                        </td>
+                        <td>
+                            <span>{task.priority}</span>
+                        </td>
+                        <td>
+                            <div className="tracker-wrapper">
+                                <div className="tracker-bar">
+                                    <div className="tracker-fill" style={{ width: `${task.tracker}%` }}></div>
+                                </div>
+                                <span className="tracker-bar-value">{task.tracker}</span>
                             </div>
-                            <span className="tracker-bar-value">{task.tracker}</span>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 ))}
                 </tbody>
             </table>

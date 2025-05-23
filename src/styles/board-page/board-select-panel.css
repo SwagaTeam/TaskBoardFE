@@ -2,7 +2,7 @@
     background: #0F151B;
     margin-top: -20px;
     padding: 5px 15px 10px 15px;
-    width: 226px;
+    min-width: 226px;
     min-height: 93vh;
     margin-right: 10px;
 }
@@ -26,7 +26,6 @@
 }
 
 .board-item {
-
     background-color: #17232F;
     border-radius: 10px;
     border: solid 1px #17232F;
@@ -35,6 +34,11 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
+}
+
+.board-item:hover {
+    background-color: #1a2c3e;
+
 }
 
 .board-item p{

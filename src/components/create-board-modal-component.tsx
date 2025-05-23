@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "../styles/boards-page/create-board-modal.css";
+import Becklog from '../assets/Beclog.svg';
+import Sprint from '../assets/Sprint.svg';
+import Standart from '../assets/Standart.svg'
 
 interface Props {
     projectId: number;
@@ -49,16 +52,16 @@ export const CreateBoardModal = ({ projectId, onCreated, onClose }: Props)=> {
                             className={`board-type-option ${selectedType === 'standard' ? 'active' : ''}`}
                             onClick={() => setSelectedType('standard')}
                         >
-                            <div className="icon">📁</div>
+                            <img className="icon" src={Standart}/>
                             <div className="title">Стандартная</div>
                         </div>
                         <div className="board-type-option disabled">
-                            <div className="icon">🏃</div>
+                            <img className="icon" src={Sprint}/>
                             <div className="title">Спринт</div>
                             <div className="desc">Скоро будет доступно</div>
                         </div>
                         <div className="board-type-option disabled">
-                            <div className="icon">📋</div>
+                            <img className="icon" src={Becklog}/>
                             <div className="title">Бэклог</div>
                             <div className="desc">Скоро будет доступно</div>
                         </div>

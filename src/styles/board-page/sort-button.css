@@ -15,6 +15,8 @@
 .sort-icon {
     color: white;
     transition: color 0.2s;
+    margin-top: -6px;
+    margin-right: -3px;
 }
 
 .sort-toggle:hover .sort-icon {

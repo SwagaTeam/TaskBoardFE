@@ -1,33 +1,65 @@
-import { ChevronLeft } from 'lucide-react';
+import { useSelector } from "react-redux";
+import { ChevronLeft } from "lucide-react";
+import { RootState } from "../../store";
+import "../../styles/board-page/board-select-panel.css";
+import { useParams, useNavigate } from "react-router-dom";
+import { CreateBoardModal } from "../create-board-modal-component";
+import { useState, useEffect } from "react";
+import { fetchBoardsByProject } from "../../store/boardSlice.ts";
+import { useAppDispatch } from "../../store/hooks.ts";
 
-import '../../styles/board-page/board-select-panel.css'
+export const BoardSelectPanel = () => {
+    const [showModal, setShowModal] = useState(false);
+    const { projectId, boardId } = useParams<{ projectId: string; boardId?: string }>();
+    const boards = useSelector((state: RootState) =>
+        state.boards.byProject[projectId] ?? []
+    );
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-export interface Board {
-    name: string;
-    tasksCount: number;
-}
+    const refreshBoards = () => dispatch(fetchBoardsByProject(projectId));
 
-interface BoardsProps {
-    boards: Board[];
-}
+    useEffect(() => {
+        if (projectId) {
+            dispatch(fetchBoardsByProject(projectId));
+        }
+        console.log("projectId", projectId, "boardId", boardId);
+    }, [projectId, dispatch]);
 
-export const BoardSelectPanel = ({boards}: BoardsProps) => {
+    const handleBoardClick = (boardId: number) => {
+        navigate(`/home/project/${projectId}/boards/${boardId}`);
+    };
+
     return (
         <div className="board-select-panel-container">
             <div className="board-select-buttons">
-                <button style={{background: 'none', border: 'none', padding: '0px', margin: '0px', marginLeft: '-3px'}}>
-                    <ChevronLeft size={50} color="#fff"/>
+                <button style={{ background: 'none', border: 'none', padding: '0px', margin: '0px', marginLeft: '-3px' }}>
+                    <ChevronLeft size={50} color="#fff" />
                 </button>
-                <button>Добавить доску</button>
+                <button onClick={() => setShowModal(true)}>Добавить доску</button>
             </div>
+
             <div className="select-boards">
                 {boards.map((board) => (
-                    <div key={board.name} className="board-item">
+                    <div
+                        key={board.id}
+                        className="board-item"
+                        onClick={() => handleBoardClick(board.id)}
+                        style={{ cursor: 'pointer' }}
+                    >
                         <p>{board.name}</p>
-                        <span>{board.tasksCount} задач</span>
+                        <span>{board.itemsCount} задач</span>
                     </div>
                 ))}
             </div>
+
+            {showModal && (
+                <CreateBoardModal
+                    projectId={projectId}
+                    onCreated={refreshBoards}
+                    onClose={() => setShowModal(false)}
+                />
+            )}
         </div>
-    )
-}
+    );
+};

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MoreVertical } from "lucide-react";
-import "../styles/project-page/project-page.css";
+import "../styles/board-table.css";
 
 interface Board {
     id: number;
@@ -8,6 +8,7 @@ interface Board {
     name: string;
     description: string;
     createdAt: string;
+    itemsCount: number;
 }
 
 export const BoardsTable = () => {
@@ -42,14 +43,15 @@ export const BoardsTable = () => {
     }, []);
 
     return (
-        <div className="project-table-wrapper">
+        <div className="board-table-wrapper">
             {error && <p className="error">{error}</p>}
-            <table className="project-table">
+            <table className="board-table">
                 <thead>
                 <tr>
                     <th style={{ width: "252px" }}>Наименование</th>
                     <th style={{ width: "400px" }}>Описание</th>
                     <th style={{ width: "214px" }}>Дата создания</th>
+                    <th style={{ width: "214px" }}>Количество задач</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -59,8 +61,9 @@ export const BoardsTable = () => {
                         <td>{board.name}</td>
                         <td>{board.description}</td>
                         <td>{new Date(board.createdAt).toLocaleDateString("ru-RU")}</td>
+                        <td>{board.itemsCount}</td>
                         <td>
-                            <button className="project-item-menu-btn">
+                            <button className="board-item-menu-btn">
                                 <MoreVertical />
                             </button>
                         </td>

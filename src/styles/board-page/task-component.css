@@ -10,13 +10,19 @@
     margin-top: -5px;
 }
 
+.task-text-container {
+    width: 158px;
+}
+
 .task-text {
+    font-size: 15px;
+    font-weight: 300;
     max-width: 165px;
     margin-top: 2px;
 }
 
 .task-username {
-    font-size: 16px;
+    font-size: 14px;
     background: none;
     margin-top: 20px;
     margin-left: -6px;
@@ -31,7 +37,7 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    margin: 12px 0 0 155px;
+    margin: 12px 0 0 152px;
     float: right;
     border-radius: 50%;
 }
@@ -42,7 +48,8 @@
 
 .task-time {
     display: flex;
-    margin: -5px 0;
+    margin: -10px 0;
+    margin-top: -20px;
 }
 
 .task-time img {
@@ -71,4 +78,14 @@
 
 .task-time button:hover {
     filter: brightness(100) saturate(100%) invert(39%) sepia(59%) saturate(748%) hue-rotate(176deg);
+}
+
+.task-priority-dot {
+    padding: 0px 6px;
+    font-size: 10px;
+    font-weight: 100;
+    border-radius: 50%;
+    margin-top: 21px;
+    height: 12px;
+    margin-left: 5px;
 }

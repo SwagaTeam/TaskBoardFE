@@ -83,8 +83,7 @@
 }
 
 .board-type-option .icon {
-    font-size: 28px;
-    margin-bottom: 6px;
+    width: 40px;
 }
 
 input, textarea {

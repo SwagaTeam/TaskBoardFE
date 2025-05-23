@@ -12,8 +12,11 @@ export const ProjectPage = () => {
 
     return (
         <div>
-            <ProjectNavigationComponent />
-            <div className="search-container">
+            <div style={{ marginTop: "10px"}}>
+                <ProjectNavigationComponent />
+            </div>
+
+            <div className="search-container" >
                 <input
                     type="text"
                     placeholder="Поиск..."

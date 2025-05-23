@@ -32,7 +32,7 @@ export const SortButton = ({ onSortChange }: SortButtonProps) => {
     return (
         <div className="sort-button-wrapper" ref={dropdownRef}>
             <button className="sort-toggle" onClick={() => setOpen(!open)}>
-                <FunnelPlus size={22} className="sort-icon" />
+                <FunnelPlus size={20} className="sort-icon" />
             </button>
             {open && (
                 <div className="sort-dropdown">

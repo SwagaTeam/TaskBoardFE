@@ -28,7 +28,8 @@ createRoot(document.getElementById('root')!).render(
 
                 <Route path='/home' element={<MainPage/>}>
                     <Route index element={<Navigate to="projects" />} />
-                    <Route path="project/:id/boards" element={<ProjectBoardsPage />} />
+                    <Route path="project/:projectId/boards" element={<ProjectBoardsPage />} />
+                    <Route path='project/:projectId/boards/:boardId' element={<BoardPage/>} />
                     <Route path='projects' element={<ProjectPage/>} />
                     <Route path='boards' element={<BoardsTable />} />
                     <Route path='tasks' element={<TasksPage />} />
