@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
 
   const API = process.env.SERVER_API_URL ?
-      `${process.env.SERVER_API_URL}` : 'http://localhost:5000' ;
+    `${process.env.SERVER_API_URL}` : 'http://localhost:5000';
 
   return {
     plugins: [react()],
@@ -22,6 +22,11 @@ export default defineConfig(({ mode }) => {
       },
       host: "0.0.0.0",
       port: 5173,
+      // Добавьте allowedHosts здесь
+      allowedHosts: [
+        "boardly.ru", // Разрешенный хост
+        "localhost",   // Обычно тоже нужно оставить
+      ]
     },
   };
 });
