@@ -26,6 +26,8 @@ export interface Task {
     category: string;
     priority: number;
     priorityText: string;
+    contributor: string;
+    businessId: number;
 }
 
 interface BoardPageProps {
@@ -68,7 +70,9 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 expectedEndDate: item.expectedEndDate,
                 category: item.status.name,
                 priority: item.priority,
-                priorityText: item.priorityText
+                priorityText: item.priorityText,
+                contributor: item.contributor,
+                businessId: item.businessId,
             }));
 
             setTaskList(formattedTasks);
@@ -281,6 +285,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                                                             task={task}
                                                             activeId={activeId}
                                                             onClick={() => setSelectedTask(task)}
+                                                            onTasksChange={fetchTasks}
                                                         />
                                                     ))}
                                                 </SortableContext>

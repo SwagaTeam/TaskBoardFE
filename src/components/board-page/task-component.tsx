@@ -16,11 +16,11 @@ export const TaskComponent = ({ task }: TaskComponentProps) => {
             <div className="task-first-sect">
                 <div className="task-text-container">
                     <button onClick={() => {}} className="task-username">
-                        {task.userName}
+                        {task?.contributor || 'Не задан'}
                     </button>
                     <p className="task-text">{task.title}</p>
                 </div>
-                {task.userAvatar && (
+                {task.userAvatar && task.contributor && (
                     <img className="task-user-avatar" src={task.userAvatar} alt="Аватар профиля" />
                 )}
             </div>
@@ -28,10 +28,7 @@ export const TaskComponent = ({ task }: TaskComponentProps) => {
                 <div className="task-time">
                     <img src={ClockIcon} alt="Дедлайн" />
                     <p>{formatDateToDayMonth(task.expectedEndDate)}</p>
-                    <button onClick={() => {}}>
-                        <img src={MenuIcon} alt="Меню" />
-                    </button>
-                    <div className="task-priority-container">
+                    <div className="task-priority-container" style={{ marginLeft: '20px' }}>
                         <button onClick={() => {}}>
                             <img src={PaperClipIcon} alt="Прикрепить что-то..." />
                         </button>

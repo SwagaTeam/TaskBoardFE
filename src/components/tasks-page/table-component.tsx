@@ -12,6 +12,7 @@ export interface Task {
     userAvatar?: string;
 }
 
+
 export const TableComponent = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
 

@@ -19,3 +19,107 @@
 .sortable-task:hover .drag-handle {
     display: flex;
 }
+
+.task-menu-wrapper {
+    background: none;
+    position: absolute;
+    bottom: 4px;
+    right: 111px;
+    z-index: 10;
+}
+
+.task-menu-wrapper img {
+    width: 16px;
+}
+
+.task-menu-button {
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.task-menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.task-menu-modal {
+    position: absolute;
+    top: 36px;
+    width: 200px;
+    right: -110px;
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 8px;
+    z-index: 100;
+}
+
+.task-menu-modal button {
+    background: none;
+    border: none;
+    color: #dddddd;
+    font-size: 14px;
+    text-align: left;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.task-menu-modal button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.confirm-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 200;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+}
+
+.confirm-modal p {
+    margin-bottom: 16px;
+    font-size: 15px;
+    color: #dddddd;
+}
+
+.confirm-modal button {
+    margin: 0 6px;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.confirm-modal button:first-of-type {
+    background-color: #b33a3a;
+    color: #fff;
+}
+
+.confirm-modal button:first-of-type:hover {
+    background-color: #d14545;
+}
+
+.confirm-modal button:last-of-type {
+    background-color: #444;
+    color: #ddd;
+}
+
+.confirm-modal button:last-of-type:hover {
+    background-color: #555;
+}
