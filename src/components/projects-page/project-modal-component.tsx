@@ -1,13 +1,16 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/project-page/project-modal.css";
+import { ru } from 'date-fns/locale';
 
 type Project = {
     key: string;
     name: string;
     description: string;
     isPrivate: boolean;
-    startDate: string;
-    expectedEndDate: string;
+    startDate: Date | null;
+    expectedEndDate: Date | null;
     priority: number;
 };
 
@@ -22,9 +25,9 @@ const ProjectModalComponent: React.FC<Props> = ({ onClose, onCreated }) => {
         name: "",
         description: "",
         isPrivate: false,
-        startDate: "",
-        expectedEndDate: "",
-        priority: 0,
+        startDate: null,
+        expectedEndDate: null,
+        priority: 1,
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,9 +45,8 @@ const ProjectModalComponent: React.FC<Props> = ({ onClose, onCreated }) => {
 
             const fullForm = {
                 ...form,
-                priority: Number(form.priority),
-                startDate: new Date(form.startDate).toISOString(),
-                expectedEndDate: new Date(form.expectedEndDate).toISOString(),
+                startDate: form.startDate ? form.startDate.toISOString() : "",
+                expectedEndDate: form.expectedEndDate ? form.expectedEndDate.toISOString() : "",
             };
 
             const response = await fetch("/api/project/create", {
@@ -75,13 +77,37 @@ const ProjectModalComponent: React.FC<Props> = ({ onClose, onCreated }) => {
                 <form onSubmit={handleSubmit}>
                     <input name="name" placeholder="Название" value={form.name} onChange={handleChange} required />
                     <textarea name="description" placeholder="Описание" value={form.description} onChange={handleChange} />
-                    <label>
-                        <input type="checkbox" name="isPrivate" checked={form.isPrivate} onChange={handleChange} />
-                        Приватный
-                    </label>
-                    <input type="date" name="startDate" value={form.startDate} onChange={handleChange} required />
-                    <input type="date" name="expectedEndDate" value={form.expectedEndDate} onChange={handleChange} required />
-                    <input type="number" name="priority" value={form.priority} onChange={handleChange} min={0} />
+                    <div className="project-modal-data-sect">
+                        <DatePicker
+                            selected={form.startDate}
+                            onChange={(date) => setForm((prev) => ({ ...prev, startDate: date }))}
+                            dateFormat="dd.MM.yyyy"
+                            locale={ru}
+                            placeholderText="Дата начала"
+                            className="datepicker-input"
+                        />
+                        <p>—</p>
+                        <DatePicker
+                            selected={form.expectedEndDate}
+                            onChange={(date) => setForm((prev) => ({ ...prev, expectedEndDate: date }))}
+                            dateFormat="dd.MM.yyyy"
+                            locale={ru}
+                            placeholderText="Дата окончания"
+                            className="datepicker-input"
+                        />
+                    </div>
+                    <div className="switch-container">
+                        <span>Приватный:</span>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                name="isPrivate"
+                                checked={form.isPrivate}
+                                onChange={handleChange}
+                            />
+                            <span className="slider" />
+                        </label>
+                    </div>
 
                     <div className="modal-buttons">
                         <button type="submit">Создать</button>

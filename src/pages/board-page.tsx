@@ -28,6 +28,8 @@ export interface Task {
     priorityText: string;
     contributor: string;
     businessId: number;
+    itemTypeId: number;
+    contributors: [string];
 }
 
 interface BoardPageProps {
@@ -62,7 +64,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
 
             const formattedTasks: Task[] = data.map((item: any) => ({
                 id: item.id.toString(),
-                userName: "Не задан",
+                author: item.author,
                 userAvatar: defaultAvatar,
                 title: item.title,
                 description: item.description,
@@ -72,7 +74,9 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 priority: item.priority,
                 priorityText: item.priorityText,
                 contributor: item.contributor,
+                contributors: item.contributors,
                 businessId: item.businessId,
+                itemTypeId: item.itemTypeId,
             }));
 
             setTaskList(formattedTasks);
@@ -180,13 +184,9 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                     }
                 } catch (error) {
                     console.error("Ошибка при отправке запроса на изменение статуса:", error);
-                    // Откатываем изменения в случае ошибки
                     setTaskList(previousTaskList);
-                    // Можно добавить уведомление об ошибке
-                    // toast.error("Не удалось изменить статус задачи.");
                 }
             } else {
-                // Перемещение внутри одной колонки
                 const tasksInCategory = getTasksByCategory(activeTask.category);
                 const oldIndex = tasksInCategory.findIndex((t) => t.id === active.id);
                 const newIndex = tasksInCategory.findIndex((t) => t.id === over.id);
@@ -207,6 +207,18 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
             </div>
         );
     };
+
+    if (!boardId) {
+        return (
+            <div style={{ display: "flex" }}>
+                <BoardSelectPanel />
+                <div>
+                    <h2>Проект {projectId}</h2>
+                    <p>У этого проекта пока нет досок</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div style={{ display: "flex" }}>
@@ -313,7 +325,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
 
 
                 {selectedTask && (
-                    <TaskSidebar task={selectedTask} onClose={() => setSelectedTask(null)} />
+                    <TaskSidebar task={selectedTask} onClose={() => setSelectedTask(null)} onTasksChange={fetchTasks}/>
                 )}
 
                 <DragOverlay>

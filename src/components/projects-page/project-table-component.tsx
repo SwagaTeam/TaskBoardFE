@@ -1,9 +1,9 @@
-import "../../styles/project-page/project-page.css";
+import "../../styles/project-page/projects-page.css";
 import { useEffect, useMemo, useState } from "react";
 import ProjectModalComponent from "./project-modal-component.tsx";
 import { MoreVertical } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/hooks.ts"; // обёртки вокруг useDispatch/useSelector с типами
+import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
 import { fetchProjects } from "../../store/projectSlice";
 
 const formatDateRangeWithoutYear = (start: string, end: string): string => {
@@ -43,6 +43,7 @@ export const ProjectTableComponent: React.FC<ProjectTableProps> = ({ search }) =
         if (status === "idle") {
             dispatch(fetchProjects());
         }
+        console.log(projects);
     }, [dispatch, status]);
 
     const filteredProjects = useMemo(
@@ -59,7 +60,7 @@ export const ProjectTableComponent: React.FC<ProjectTableProps> = ({ search }) =
     };
 
     const handleRowClick = (id: number) => {
-        navigate(`/home/project/${id}/boards`);
+        navigate(`/home/project/${id}`);
     };
 
     return (
@@ -104,7 +105,7 @@ export const ProjectTableComponent: React.FC<ProjectTableProps> = ({ search }) =
             </table>
 
             <button className="add-button" onClick={() => setShowModal(true)}>
-                Добавить проект
+                Создать новый проект
             </button>
 
             {showModal && (

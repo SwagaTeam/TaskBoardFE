@@ -24,21 +24,23 @@
     background: none;
     position: absolute;
     bottom: 4px;
-    right: 111px;
-    z-index: 10;
+    right: 103px;
 }
-
-.task-menu-wrapper img {
-    width: 16px;
+.task-menu-wrapper img{
+    width: 15px;
 }
 
 .task-menu-button {
+    position: absolute;
+    right: 2px;
+    bottom: 0;
     background: none;
     border: none;
     padding: 4px;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s;
+    z-index: 1;
 }
 
 .task-menu-button:hover {
@@ -47,17 +49,18 @@
 
 .task-menu-modal {
     position: absolute;
-    top: 36px;
-    width: 200px;
-    right: -110px;
-    background-color: #2a2a2a;
-    border: 1px solid #3a3a3a;
+    top: 8px;
+    right: -103px;
+    width: 212px;
+    background-color: #141f29;
+    border: 1px solid #122b44;
     border-radius: 8px;
-    padding: 8px;
-    z-index: 100;
+    padding: 3px;
+    z-index: 2;
 }
 
 .task-menu-modal button {
+    z-index: 1000;
     background: none;
     border: none;
     color: #dddddd;

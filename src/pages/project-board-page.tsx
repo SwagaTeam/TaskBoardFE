@@ -2,7 +2,7 @@ import { Folder } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../styles/boards-page/project-board-page.css";
-import { ProjectNavigationComponent } from "../components/project-page/project-navigation-component.tsx";
+import { ProjectNavigationComponent } from "../components/projects-page/project-navigation-component.tsx";
 import { CreateBoardModal } from "../components/create-board-modal-component.tsx";
 import { useAppDispatch, useAppSelector } from "../store/hooks.ts";
 import { fetchBoardsByProject } from "../store/boardSlice";

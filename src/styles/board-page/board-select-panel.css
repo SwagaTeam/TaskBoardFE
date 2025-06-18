@@ -8,13 +8,14 @@
 }
 .board-select-buttons{
     display: flex;
+    flex-direction: row;
 }
 
 .board-select-back {
     background: none;
 }
 
-.board-select-buttons button {
+.panel-create-board-button {
     font-family: Inter, sans-serif;
     font-size: 14px;
     font-weight: 200;
@@ -23,6 +24,7 @@
     margin: 20px 0 20px 20px;
     color: white;
     background-color: #122B45;
+    margin-left: auto;
 }
 
 .board-item {
@@ -53,4 +55,8 @@
     font-size: 15px;
     font-weight: 300;
     margin: 0;
+}
+
+.board-item.selected {
+    background-color: #172c42;
 }

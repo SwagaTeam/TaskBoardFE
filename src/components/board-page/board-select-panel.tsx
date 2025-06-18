@@ -16,7 +16,7 @@ export const BoardSelectPanel = () => {
     );
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
+    const selectedBoardId = boardId ? parseInt(boardId, 10) : null;
     const refreshBoards = () => dispatch(fetchBoardsByProject(projectId));
 
     useEffect(() => {
@@ -33,17 +33,18 @@ export const BoardSelectPanel = () => {
     return (
         <div className="board-select-panel-container">
             <div className="board-select-buttons">
-                <button style={{ background: 'none', border: 'none', padding: '0px', margin: '0px', marginLeft: '-3px' }}>
+                <button onClick={() => navigate(`/home/project/${projectId}`)}
+                    style={{ background: 'none', border: 'none', padding: '0px', margin: '0px', marginLeft: '-3px' }}>
                     <ChevronLeft size={50} color="#fff" />
                 </button>
-                <button onClick={() => setShowModal(true)}>Добавить доску</button>
+                <button className='panel-create-board-button' onClick={() => setShowModal(true)}>Добавить доску</button>
             </div>
 
             <div className="select-boards">
                 {boards.map((board) => (
                     <div
                         key={board.id}
-                        className="board-item"
+                        className={`board-item ${board.id === selectedBoardId ? "selected" : ""}`}
                         onClick={() => handleBoardClick(board.id)}
                         style={{ cursor: 'pointer' }}
                     >

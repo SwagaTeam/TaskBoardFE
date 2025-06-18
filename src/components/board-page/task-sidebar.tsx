@@ -135,7 +135,7 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
         if (response.ok) {
             setCommentText('');
             setAttachment(null);
-            fetchComments(); // обновить список комментариев
+            fetchComments();
         }
     };
 
@@ -149,18 +149,17 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
             <div className="task-sidebar-overlay" />
             <button className="close-button" onClick={handleClose}>×</button>
 
-            {/* Прокручиваемая часть */}
             <div className="task-sidebar-content">
-                <p className='task-sidebar-username'>{task.userName}</p>
+                <p className='task-sidebar-username'>{task.author}</p>
                 <h2 className='task-sidebar-title'>{task.title}</h2>
 
                 <div className='task-sidebar-short-info-container'>
-                    <div className='task-sidebar-short-info'><p>Создатель</p><p>{task.userName}</p></div>
-                    <div className='task-sidebar-short-info'><p>Исполнитель</p><p>{task.userName}</p></div>
+                    <div className='task-sidebar-short-info'><p>Создатель</p><p>{task.author}</p></div>
+                    <div className='task-sidebar-short-info'><p>Исполнитель</p><p>{task.contributor || task.contributors[0] || 'Не задан'}</p></div>
+                    <div className='task-sidebar-short-info'><p>Дата создания</p><p>{formatDateToDayMonthYear(task.startDate)}</p></div>
                     <div className='task-sidebar-short-info'><p>Дедлайн</p><p>{formatDateToDayMonthYear(task.expectedEndDate)}</p></div>
                     <div className='task-sidebar-short-info'><p>Приоритет</p><p style={{backgroundColor: getTaskPriorityColor(task.priority)}} className='task-sidebar-priority'>{task.priorityText}</p></div>
-                    <div className='task-sidebar-short-info'><p>Дата создания</p><p>{formatDateToDayMonthYear(task.startDate)}</p></div>
-
+                    {task.itemTypeId === 3 && (<div className='task-sidebar-short-info'><p>Тип задачи</p><p style={{backgroundColor: "#FF4D4F93", color: "white"}} className='task-sidebar-priority'>БАГ</p></div>)}
                     <h3 className='task-sidebar-desc-title'>Описание:</h3>
                     <p className='task-sidebar-description'>{task.description}</p>
 

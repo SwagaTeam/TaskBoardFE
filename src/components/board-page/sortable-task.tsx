@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskComponent } from "./task-component";
 import { Task } from "../../pages/board-page";
-import { CSSProperties, useState } from "react";
+import {CSSProperties, useEffect, useState} from "react";
 import { GripVertical } from "lucide-react";
 
 import MenuIcon from '../../assets/menu.svg';
@@ -35,7 +35,23 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     const token = localStorage.getItem('token');
-    const userId = 2;
+    const [userId, setUserId] = useState(0);
+
+    const getUserId = async () => {
+        try {
+            const response = await fetch(`/api/auth/current`, {
+                method: 'GET',
+                headers: {
+                    'accept': 'text/plain',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setUserId(response.userId);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleDeleteTask = async () => {
         try {
@@ -48,7 +64,7 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
             });
 
             if (response.ok) {
-                onTasksChange(); // <--- обновляем список
+                onTasksChange();
             }
         } catch (error) {
             console.error(error);
@@ -67,9 +83,8 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userId)
+                body: userId.toString(),
             });
-
             if (response.ok) {
                 onTasksChange();
             }
@@ -80,6 +95,32 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
 
         setIsMenuOpen(false);
     };
+
+    const markAsBug = async () => {
+        try {
+            const response = await fetch(`/api/item/change-itemType/${task.id}`, {
+                method: 'POST',
+                headers: {
+                    'accept': '*/*',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: '3',
+            });
+            if (response.ok) {
+                onTasksChange();
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка запроса');
+        }
+
+        setIsMenuOpen(false);
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
 
     return (
         <div ref={setNodeRef} style={style} className="sortable-task">
@@ -102,6 +143,8 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                     <div className="task-menu-modal">
                         <button onClick={() => setIsConfirmDeleteOpen(true)}>Удалить задачу</button>
                         <button onClick={handleAssignToSelf}>Назначить себя исполнителем</button>
+                        <button>Заархивировать</button>
+                        <button onClick={markAsBug}>Отметить как баг</button>
                     </div>
                 )}
             </div>

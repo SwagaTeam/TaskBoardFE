@@ -21,7 +21,7 @@
 }
 
 .project-table td {
-    padding: 6px 15px;
+    padding: 0px 15px;
     border-top: 1px solid #dee2e6;
     vertical-align: middle;
     font-weight: 300;
@@ -45,8 +45,9 @@
 .project-table-status {
     background-color: #122B45;
     padding: 6px 0 5px 15px;
+    margin-left: -15px;
+    margin-right: 15px;
     border-radius: 10px;
-    margin-right: 10px;
 }
 
 
