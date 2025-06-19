@@ -173,14 +173,14 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({projectId, boar
                         <button
                             type="button"
                             onClick={onClose}
-                            className="btn task-btn-cancel"
+                            className="task-form-btn task-btn-cancel"
                         >
                             Отмена
                         </button>
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="btn task-btn-submit"
+                            className="task-form-btn task-btn-submit"
                         >
                             {isSubmitting ? 'Создание...' : 'Создать'}
                         </button>

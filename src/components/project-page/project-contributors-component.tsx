@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../../styles/project-page/project-contributors-component.css';
 import defaultAvatar from "../../assets/user-avatar.webp";
-import { Send, X } from 'lucide-react';
+import { Send, X, MoreVertical, Save } from 'lucide-react';
 
 interface User {
     id: number;
@@ -23,6 +23,8 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
     const [url, setUrl] = useState('');
     const [shakeError, setShakeError] = useState(false);
     const token = localStorage.getItem('token');
+    const [editingUserId, setEditingUserId] = useState<number | null>(null);
+    const [newRole, setNewRole] = useState('');
 
     useEffect(() => {
         if (projectId) {
@@ -70,6 +72,36 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
             });
     };
 
+    const changeRole = async (userId: number) => {
+        try {
+            const res = await fetch('/api/project/set-user-role', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId,
+                    projectId,
+                    role: { role: newRole }
+                })
+            });
+
+            if (!res.ok) throw new Error("Ошибка при изменении роли");
+
+            setEditingUserId(null);
+            setNewRole('');
+            // Обновить список
+            const refreshed = await fetch(`/api/project/get-users-in-project/${projectId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await refreshed.json();
+            setUsers(data);
+        } catch (error) {
+            console.error("Ошибка смены роли:", error);
+        }
+    };
+
 
     const resetInvite = () => {
         setInviteSent(false);
@@ -86,6 +118,29 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
                             <div className="user-name">{user.username} ({user.email})</div>
                             <div className="user-role">{user.role || ''}</div>
                         </div>
+
+                        {user.role !== "Создатель" && (<div className="project-user-actions">
+                            <button onClick={() => setEditingUserId(user.id)}>
+                                <MoreVertical size={20} />
+                            </button>
+
+                            {editingUserId === user.id && (
+                                <div className="project-user-edit-role-popup">
+                                    <input
+                                        type="text"
+                                        placeholder="Введите роль"
+                                        value={newRole}
+                                        onChange={(e) => setNewRole(e.target.value)}
+                                    />
+                                    <button onClick={() => changeRole(user.id)}>
+                                        <Save size={20}/>
+                                    </button>
+                                    <button onClick={() => setEditingUserId(null)}>
+                                        <X size={22}/>
+                                    </button>
+                                </div>
+                            )}
+                        </div>)}
                     </li>
                 ))}
             </ul>
@@ -95,7 +150,7 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
                     <div className={`invite-form-input ${shakeError ? 'shake' : ''}`}>
                         <input
                             type="email"
-                            placeholder="Email участника (участник должен быть зарегистрирован на платформе)"
+                            placeholder="Email (участник должен быть зарегистрирован на платформе)"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />

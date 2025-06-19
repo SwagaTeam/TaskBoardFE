@@ -13,6 +13,7 @@ import {RegisterPage} from "./pages/autorization/RegisterPage.tsx";
 import {ProjectsPage} from "./pages/projects-page.tsx";
 import {BoardsTable} from "./pages/boards-table.tsx";
 import {ProjectBoardsPage} from "./pages/project-board-page.tsx";
+import {WelcomePage} from "./pages/welcome-page.tsx";
 
 import {UserSettings} from "./pages/user-settings-page.tsx";
 import {ProjectPage} from "./pages/project-page";
@@ -26,7 +27,8 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
             <Provider store={store}>
             <Routes>
-                <Route index element={<Navigate to="login" />} />
+                <Route index element={<Navigate to="welcome" />} />
+                <Route path='welcome' element={<WelcomePage/>} />
                 <Route path='login' element={<LoginPage/>} />
                 <Route path='register' element={<RegisterPage/>} />
 

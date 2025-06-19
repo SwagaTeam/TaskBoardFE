@@ -10,6 +10,8 @@ import '../styles/project-page.css'
 import { useAppDispatch, useAppSelector } from "../store/hooks.ts";
 import { fetchBoardsByProject } from "../store/boardSlice.ts";
 
+import {BurndownChart} from "../components/project-page/burndown-chart.tsx";
+
 interface UserProject {
     id: number;
     userId: number;
@@ -142,6 +144,12 @@ export const ProjectPage = () => {
                     >
                         Настройки
                     </button>
+                    <button
+                        className={activeTab === "analytics" ? "active-tab" : ""}
+                        onClick={() => setActiveTab("analytics")}
+                    >
+                        Аналитика
+                    </button>
                 </div>
             </div>
 
@@ -189,7 +197,8 @@ export const ProjectPage = () => {
                 <ProjectDocumentsComponent projectId={projectIdNumber} />
             ) : activeTab === "settings" && project ? (
                 <ProjectSettingsForm project={project} onUpdate={fetchProject} />
-            ) : null}
+            ) : activeTab === "analytics" && project ? (
+                <BurndownChart projectId={project.id} /> ) : null}
         </div>
     );
 };

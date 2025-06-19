@@ -25,6 +25,7 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
+    width: 840px;
 }
 
 .user-avatar {
@@ -146,4 +147,49 @@
 
 .shake {
     animation: shake 0.4s ease-in-out;
+}
+
+
+
+.project-user-actions {
+    margin-left: auto;
+    position: relative;
+}
+
+.project-user-actions button{
+    background: none;
+    color: #cacaca;
+}
+.project-user-actions button:hover {
+    color: #628dc3;
+}
+
+.project-user-edit-role-popup {
+    position: absolute;
+    width: 300px;
+    right: -8px;
+    top: -5px;
+    background: #141f29;
+    padding: 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+}
+
+.project-user-edit-role-popup input {
+    background: #282c34;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+    padding: 0 5px;
+    height: 20px;
+    margin-top: 0;
+}
+
+.project-user-edit-role-popup button {
+    background: none;
+    color: #cccccc;
+    border: none;
+    cursor: pointer;
 }

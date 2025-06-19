@@ -53,16 +53,16 @@ export const CreateBoardModal = ({ projectId, onCreated, onClose }: Props)=> {
                             onClick={() => setSelectedType('standard')}
                         >
                             <img className="icon" src={Standart}/>
-                            <div className="title">Стандартная</div>
+                            <div className="boardtitle">Стандартная</div>
                         </div>
                         <div className="board-type-option disabled">
                             <img className="icon" src={Sprint}/>
-                            <div className="title">Спринт</div>
+                            <div className="board-title">Спринт</div>
                             <div className="desc">Скоро будет доступно</div>
                         </div>
                         <div className="board-type-option disabled">
                             <img className="icon" src={Becklog}/>
-                            <div className="title">Бэклог</div>
+                            <div className="board-title">Бэклог</div>
                             <div className="desc">Скоро будет доступно</div>
                         </div>
                     </div>

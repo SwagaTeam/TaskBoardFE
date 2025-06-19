@@ -1,30 +1,21 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../styles/user-settings-page.css'
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchCurrentUser } from "../store/userSlice";
+import '../styles/user-settings-page.css';
+import defaultAvatar from '../assets/user-avatar.webp';
 
 export const UserSettings = () => {
     const token = localStorage.getItem("token");
-    const [userData, setUserData] = useState({
-        email: "Нет данных",
-    });
+    const navigate = useNavigate();
     const [isPasswordEditing, setIsPasswordEditing] = useState(false);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-
-    const fetchUserData = async () => {
-        try {
-            const response = await axios.get("/api/auth/current", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "*/*",
-                },
-            });
-
-            setUserData(response.data);
-        } catch (error) {
-            console.error("Ошибка при получении данных пользователя:", error);
-        }
-    };
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [preview, setPreview] = useState("");
+    const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.user.user);
 
     const changePasswordRequest = async () => {
         try {
@@ -52,20 +43,124 @@ export const UserSettings = () => {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            await axios.post(
+                '/api/auth/logout',
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // Очищаем токен и перенаправляем на главную
+            localStorage.removeItem("token");
+            navigate("/");
+        } catch (error) {
+            console.error("Ошибка при выходе:", error);
+            alert("Произошла ошибка при выходе");
+        }
+    };
+
     const handlePasswordCancel = () => {
         setIsPasswordEditing(false);
         setOldPassword("");
         setNewPassword("");
     };
 
+
+    const onFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setSelectedFile(file);
+
+        // Создание превью для отображения
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Загрузка аватара на сервер
+    const uploadAvatar = async () => {
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append('avatar', selectedFile);
+
+        try {
+            await axios.post('/api/user/set-avatar', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // Обновляем данные пользователя после успешной загрузки
+            dispatch(fetchCurrentUser());
+            alert("Аватар успешно обновлен!");
+            setPreview(""); // Сбрасываем превью
+        } catch (error) {
+            console.error("Ошибка при загрузке аватара:", error);
+            alert("Ошибка при загрузке аватара");
+        }
+    };
+
+    const resetAvatarSelection = () => {
+        setSelectedFile(null);
+        setPreview("");
+        const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = '';
+        }
+    };
+
     useEffect(() => {
-        document.title='Настройки';
-        fetchUserData();
-    }, []);
+        document.title = 'Настройки';
+        dispatch(fetchCurrentUser());
+    }, [dispatch]);
 
     return (
         <div className="user-settings">
             <h2>Аккаунт</h2>
+            <div className="user-settings-pic-sect">
+                    <img
+                        className='user-settings-avatar'
+                        src={preview || user?.imagePath || defaultAvatar}
+                        alt="Аватар пользователя"
+                    />
+                    <span>{user?.username || ''}</span>
+                    <span>{user?.email || ''}</span>
+            </div>
+            <div className="settings-sect-2">
+                <div className="avatar-upload-controls" >
+                    <input
+                        type="file"
+                        id="avatar-upload"
+                        accept="image/*"
+                        onChange={onFileChange}
+                        style={{ display: 'none' }}
+                    />
+                    {!preview && (<label htmlFor="avatar-upload" className="settings-sub-tab" style={{width:'660px'}}>
+                        Выбрать фото профиля
+                    </label>)}
+                    {preview && (
+                        <div className="settings-sub-tab-container">
+                            <button onClick={uploadAvatar} >
+                                Сохранить
+                            </button>
+                            <button onClick={resetAvatarSelection}>
+                                Отмена
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             <div className="settings-sect">
                 {isPasswordEditing ? (
                     <div className="email-confirmation-container">
@@ -112,12 +207,20 @@ export const UserSettings = () => {
                 </button>
                 <button className="settings-sub-tab">
                     <div>
+                        <span>Изменить тему оформления</span>
+                        <p>Скоро</p>
+                    </div>
+                    <div className="settings-go">&#8250;</div>
+                </button>
+                <button className="settings-sub-tab">
+                    <div>
                         <span>Частые вопросы</span>
                         <p>Об операторе и услугах связи</p>
                     </div>
                     <div className="settings-go">&#8250;</div>
                 </button>
             </div>
+            <button className="user-settings-logout" onClick={handleLogout}>Выйти</button>
         </div>
     );
 };

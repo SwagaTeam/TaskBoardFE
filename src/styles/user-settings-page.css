@@ -1,11 +1,32 @@
 .user-settings {
     width: 700px;
+    font-family: Inter, sans-serif;
+}
+
+.user-settings-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.user-settings-pic-sect {
+    display: flex;
+    margin-bottom: 14px;
+}
+.user-settings-pic-sect span {
+    font-size: 20px;
+    color: #cccccc;
+    margin: 3px 0 4px 20px;
+    padding: 6px 20px 0px 20px;
+    background-color: #273748;
+    border-radius: 8px;
 }
 
 .settings-sect {
     background-color: #273749;
     padding: 3px;
     border-radius: 15px;
+    margin-top: 30px;
 }
 
 .settings-sect-2{
@@ -15,6 +36,31 @@
     border-radius: 15px;
     color: #cdcdcd;
 }
+
+.settings-sub-tab-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 14px;
+    justify-content: space-between;
+}
+
+.settings-sub-tab-container button{
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    margin: 5px 15px 5px 5px;
+    width: 180px;
+    padding: 5px 15px;
+    color: #cdcdcd;
+}
+
+.settings-sub-tab-container button:hover {
+    background-color: #374e67;
+    cursor: pointer;
+}
+
 .settings-sub-tab {
     font-family: Inter, sans-serif;
     width: 680px;
@@ -59,6 +105,20 @@
     color: #b1b1b1;
 }
 
+.user-settings-logout {
+    width: 100%;
+    background: #d35050;
+    color: #c3c3c3;
+    padding: 8px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+.user-settings-logout:hover {
+    background: #c34242;
+}
 
 input:focus {
     outline: none;
