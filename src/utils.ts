@@ -39,7 +39,7 @@ export const rebuildFilePath = (filePath: string, fileTypeId: number): string =>
 
     const fileTypes = {
         0: 'avatar',
-        1: 'doc',
+        1: 'document',
         2: 'attachment'
     } as const;
 
