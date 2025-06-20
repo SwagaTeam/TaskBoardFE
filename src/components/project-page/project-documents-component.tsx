@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import '../../styles/project-page/project-documents.css';
 import { FileText, Image, FileArchive, File, FolderPlus } from 'lucide-react';
+import {rebuildFilePath} from "../../utils.ts";
 
 interface ProjectDocumentsComponentProps {
     projectId: number;
@@ -113,7 +114,7 @@ export const ProjectDocumentsComponent = ({ projectId }: ProjectDocumentsCompone
                     documents.map(doc => (
                         <a
                             key={doc.id}
-                            href={`http://localhost:5001${doc.filePath}`}
+                            href={rebuildFilePath(doc.filePath)}
                             target="_blank"
                             className="document-tile"
                         >

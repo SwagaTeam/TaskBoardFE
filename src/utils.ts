@@ -34,12 +34,12 @@ export const getTaskPriorityColor = (priority: number): string => {
     }
 };
 
-export const rebuildImagePath = (imagePath?: string | null): string | null => {
-    if (!imagePath) return null;
-
-    if (imagePath.startsWith('http')) return imagePath;
-
-    const cleanPath = imagePath.replace(/^\/+/, '');
-
-    return `${import.meta.env.VITE_AVATAR_URL}/${cleanPath}`;
-};
+export const rebuildFilePath = (path: string) => {
+    if (!path) {
+        return '';
+    }
+    if (path.startsWith('/')) {
+        return `/api/api${path}`
+    }
+    return '';
+}

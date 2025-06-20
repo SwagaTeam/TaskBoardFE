@@ -2,7 +2,7 @@ import '../../styles/sidebar-component.css'
 import defaultAvatar from "../../assets/user-avatar.webp";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {rebuildImagePath} from "../../utils.ts";
+import {rebuildFilePath} from "../../utils.ts";
 
 type NavigationItem = {
     [key: string]: string;
@@ -30,7 +30,7 @@ export const SidebarComponent = ({ user }: SidebarComponentProps) => {
     return (
         <div className='sidebar'>
             <div className="profile-info">
-                <img className="profile-image" src={rebuildImagePath(user?.imagePath) || defaultAvatar} alt="Ваш профиль" />
+                <img className="profile-image" src={rebuildFilePath(user?.imagePath) || defaultAvatar} alt="Ваш профиль" />
                 <button onClick={() => {navigate('/home/settings')}}>
                     {user?.username || ''}
                 </button>

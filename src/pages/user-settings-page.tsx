@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchCurrentUser } from "../store/userSlice";
 import '../styles/user-settings-page.css';
 import defaultAvatar from '../assets/user-avatar.webp';
-import {rebuildImagePath} from "../utils.ts";
+import {rebuildFilePath} from "../utils.ts";
 
 export const UserSettings = () => {
     const token = localStorage.getItem("token");
@@ -120,17 +120,6 @@ export const UserSettings = () => {
         }
     };
 
-    const getAvatarData = () => {
-        if (!user?.imagePath) return defaultAvatar;
-
-        try {
-            const buffer = readFile(user.imagePath, 'avatar');
-            return URL.createObjectURL(new Blob([buffer]));
-        } catch (e) {
-            return defaultAvatar;
-        }
-    };
-
     useEffect(() => {
         document.title = 'Настройки';
         dispatch(fetchCurrentUser());
@@ -142,7 +131,7 @@ export const UserSettings = () => {
             <div className="user-settings-pic-sect">
                     <img
                         className='user-settings-avatar'
-                        src={preview || getAvatarData()}
+                        src={preview || rebuildFilePath(user?.imagePath) || defaultAvatar}
                         alt="Аватар пользователя"
                     />
                     <span>{user?.username || ''}</span>

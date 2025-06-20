@@ -5,6 +5,7 @@ import { Paperclip, SendHorizontal } from "lucide-react";
 import "../../styles/board-page/task-sidebar.css";
 import { useRef } from "react";
 import {getTaskPriorityColor} from "../../utils.ts";
+import {rebuildFilePath} from "../../utils.ts";
 
 interface TaskSidebarProps {
     task: Task;
@@ -63,7 +64,7 @@ const CommentItem = ({ comment }: { comment: Comment }) => {
                     {comment.attachments.map((att) => (
                         <a
                             key={att.id}
-                            href={`http://localhost:5001${att.filePath}`}
+                            href={rebuildFilePath(att.filePath)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="comment-attachment"
