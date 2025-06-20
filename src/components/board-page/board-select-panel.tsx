@@ -11,19 +11,28 @@ import { useAppDispatch } from "../../store/hooks.ts";
 export const BoardSelectPanel = () => {
     const [showModal, setShowModal] = useState(false);
     const { projectId, boardId } = useParams<{ projectId: string; boardId?: string }>();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const boards = useSelector((state: RootState) =>
         state.boards.byProject[projectId] ?? []
     );
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+
+    const user = useSelector((state: RootState) => state.user.user);
+    const project = useSelector((state: RootState) =>
+        state.projects.items.find((p) => p.id === Number(projectId))
+    );
+
+    const isProjectHead = user?.username === project?.head;
+
     const selectedBoardId = boardId ? parseInt(boardId, 10) : null;
+
     const refreshBoards = () => dispatch(fetchBoardsByProject(projectId));
 
     useEffect(() => {
         if (projectId) {
             dispatch(fetchBoardsByProject(projectId));
         }
-        console.log("projectId", projectId, "boardId", boardId);
     }, [projectId, dispatch]);
 
     const handleBoardClick = (boardId: number) => {
@@ -33,11 +42,18 @@ export const BoardSelectPanel = () => {
     return (
         <div className="board-select-panel-container">
             <div className="board-select-buttons">
-                <button onClick={() => navigate(`/home/project/${projectId}`)}
-                    style={{ background: 'none', border: 'none', padding: '0px', margin: '0px', marginLeft: '-3px' }}>
+                <button
+                    onClick={() => navigate(`/home/project/${projectId}`)}
+                    style={{ background: 'none', border: 'none', padding: 0, marginLeft: '-3px' }}
+                >
                     <ChevronLeft size={50} color="#fff" />
                 </button>
-                <button className='panel-create-board-button' onClick={() => setShowModal(true)}>Добавить доску</button>
+
+                {isProjectHead && (
+                    <button className='panel-create-board-button' onClick={() => setShowModal(true)}>
+                        Добавить доску
+                    </button>
+                )}
             </div>
 
             <div className="select-boards">

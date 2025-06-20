@@ -115,14 +115,12 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
         const isOverTask = taskList.find((t) => t.id === over.id);
         const token = localStorage.getItem("token");
 
-        // Сохраняем предыдущее состояние для возможного отката
         const previousTaskList = [...taskList];
 
         if (isOverColumn) {
             const newStatus = statuses.find((status) => status.name === over.id);
             if (!newStatus) return;
 
-            // Оптимистичное обновление: сразу меняем категорию задачи
             setTaskList((prev) =>
                 prev.map((task) =>
                     task.id === active.id
