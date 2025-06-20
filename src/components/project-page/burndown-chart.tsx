@@ -30,17 +30,16 @@ const intervalOptions = [
 
 export const BurndownChart = ({ projectId }) => {
     const [priority, setPriority] = useState(2);
-    const [startDate, setStartDate] = useState(new Date()); // Текущая дата как начальная
+    const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(() => {
         const d = new Date();
-        d.setDate(d.getDate() + 7); // По умолчанию +7 дней от текущей
+        d.setDate(d.getDate() + 7);
         return d;
     });
     const [interval, setInterval] = useState(intervalOptions[0]);
     const [data, setData] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
 
-    // При смене интервала пересчитываем endDate от startDate
     useEffect(() => {
         if (interval) {
             const newEndDate = new Date(startDate);
