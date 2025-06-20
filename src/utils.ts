@@ -33,3 +33,16 @@ export const getTaskPriorityColor = (priority: number): string => {
             return 'none';
     }
 };
+
+export const rebuildImagePath = (imagePath?: string | null): string | null => {
+    if (!imagePath) return null;
+
+    // Если путь уже абсолютный (начинается с http), возвращаем как есть
+    if (imagePath.startsWith('http')) return imagePath;
+
+    // Убираем лишние слэши
+    const cleanPath = imagePath.replace(/^\/+/, '');
+
+    // Формируем полный URL
+    return `${import.meta.env.VITE_AVATAR_URL}/${cleanPath}`;
+};

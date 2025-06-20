@@ -14,6 +14,7 @@ import {ProjectsPage} from "./pages/projects-page.tsx";
 import {BoardsTable} from "./pages/boards-table.tsx";
 import {ProjectBoardsPage} from "./pages/project-board-page.tsx";
 import {WelcomePage} from "./pages/welcome-page.tsx";
+import {SessionExpiredPage} from "./pages/session-expired-page.tsx";
 
 import {UserSettings} from "./pages/user-settings-page.tsx";
 import {ProjectPage} from "./pages/project-page";
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path='welcome' element={<WelcomePage/>} />
                 <Route path='login' element={<LoginPage/>} />
                 <Route path='register' element={<RegisterPage/>} />
+                <Route path="/session-expired" element={<SessionExpiredPage />} />
 
 
                 <Route path='/home' element={<MainPage/>}>

@@ -1,5 +1,6 @@
-import { SidebarComponent } from "../components/sidebar/sidebar-component.tsx";
-import { Outlet } from "react-router-dom";
+// src/pages/MainPage.tsx
+import { SidebarComponent } from "../components/sidebar/sidebar-component";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchCurrentUser } from "../store/userSlice";
@@ -8,19 +9,25 @@ import "../styles/main-page.css";
 
 export const MainPage = () => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector((state) => state.user);
+    const navigate = useNavigate();
+    const user = useAppSelector((state) => state.user.user);
 
     useEffect(() => {
-        dispatch(fetchCurrentUser());
-        dispatch(fetchProjects());
-    }, [dispatch]);
-
-    const sidebarName = user.user?.username || "";
+        dispatch(fetchCurrentUser())
+            .unwrap()
+            .then(() => {
+                dispatch(fetchProjects());
+            })
+            .catch(() => {
+                localStorage.removeItem("token");
+                navigate("/session-expired");
+            });
+    }, [dispatch, navigate]);
 
     return (
         <div className="main-page-root">
             <div className="main-page">
-                <SidebarComponent name={sidebarName} />
+                <SidebarComponent user={user} />
                 <div style={{ width: "1150px" }}>
                     <Outlet />
                 </div>

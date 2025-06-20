@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '../../styles/project-page/project-contributors-component.css';
 import defaultAvatar from "../../assets/user-avatar.webp";
 import { Send, X, MoreVertical, Save } from 'lucide-react';
+import {rebuildImagePath} from "../../utils.ts";
 
 interface User {
     id: number;
@@ -113,7 +114,7 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
             <ul className="user-list">
                 {users?.map(user => (
                     <li key={user.id} className="user-item">
-                        <img className="user-avatar" src={user.imagePath || defaultAvatar} alt="avatar" />
+                        <img className="user-avatar" src={rebuildImagePath(user.imagePath) || defaultAvatar} alt="avatar" />
                         <div className="user-info">
                             <div className="user-name">{user.username} ({user.email})</div>
                             <div className="user-role">{user.role || ''}</div>

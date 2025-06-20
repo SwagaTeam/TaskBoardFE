@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchCurrentUser } from "../store/userSlice";
 import '../styles/user-settings-page.css';
 import defaultAvatar from '../assets/user-avatar.webp';
+import {rebuildImagePath} from "../utils.ts";
 
 export const UserSettings = () => {
     const token = localStorage.getItem("token");
@@ -130,7 +131,7 @@ export const UserSettings = () => {
             <div className="user-settings-pic-sect">
                     <img
                         className='user-settings-avatar'
-                        src={preview || user?.imagePath || defaultAvatar}
+                        src={preview || rebuildImagePath(user?.imagePath) || defaultAvatar}
                         alt="Аватар пользователя"
                     />
                     <span>{user?.username || ''}</span>
