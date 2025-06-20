@@ -39,7 +39,7 @@ export const rebuildFilePath = (path: string) => {
         return '';
     }
     if (path.startsWith('/')) {
-        return `/api/api${path}`
+        return `/api${path}`
     }
     return '';
 }
