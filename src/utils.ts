@@ -38,13 +38,14 @@ export const rebuildFilePath = (filePath: string, fileTypeId: number): string =>
     if (!filePath?.trim()) return '';
 
     const fileTypes = {
-        0: 'avatar',
-        1: 'document',
-        2: 'attachment'
+        0: 'avatars',
+        1: 'documents',
+        2: 'attachments',
+        3: '',
     } as const;
 
-    const type = fileTypes[fileTypeId as keyof typeof fileTypes] || 'attachment';
+    const type = fileTypes[fileTypeId as keyof typeof fileTypes];
     const normalizedPath = filePath.replace(/^\/+/, '');
 
-    return `/api/${type}s/${normalizedPath}`;
+    return `/api/${type}/${normalizedPath}`;
 };

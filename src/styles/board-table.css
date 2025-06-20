@@ -28,6 +28,10 @@
     font-size: 15px;
 }
 
+.board-row:hover {
+    background-color: #223547;
+}
+
 .board-item-menu-btn {
     background: none;
     border: none;

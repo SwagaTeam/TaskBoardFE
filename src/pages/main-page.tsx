@@ -1,4 +1,3 @@
-// src/pages/MainPage.tsx
 import { SidebarComponent } from "../components/sidebar/sidebar-component";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";

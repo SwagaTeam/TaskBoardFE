@@ -12,33 +12,7 @@ import { fetchBoardsByProject } from "../store/boardSlice.ts";
 
 import {BurndownChart} from "../components/project-page/burndown-chart.tsx";
 
-interface UserProject {
-    id: number;
-    userId: number;
-    projectId: number;
-    privilege: number;
-    roleId: number;
-    project: null;
-    role: {
-        id: number;
-        role: string;
-    };
-}
 
-interface ProjectData {
-    id: number;
-    key: string;
-    name: string;
-    description: string;
-    isPrivate: boolean;
-    startDate: string;
-    updateDate: string;
-    expectedEndDate: string;
-    head: string;
-    priority: number;
-    status: string;
-    userProjects: UserProject[];
-}
 
 type Board = {
     id: number;
@@ -51,12 +25,14 @@ export const ProjectPage = () => {
     const [project, setProject] = useState<ProjectData | null>(null);
     const [activeTab, setActiveTab] = useState<"overview" | "docs">("overview");
     const [error, setError] = useState(false);
+    const [userId, setUserId] = useState<number | null>(null);
 
     const dispatch = useAppDispatch();
     const { byProject } = useAppSelector((s) => s.boards);
     const boards: Board[] = byProject[projectIdNumber] || [];
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
     const fetchProject = async () => {
         if (!projectId) return;
@@ -64,7 +40,6 @@ export const ProjectPage = () => {
         setError(false);
 
         try {
-            const token = localStorage.getItem("token");
             const response = await axios.get<ProjectData>(`/api/project/get/${projectId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -79,7 +54,21 @@ export const ProjectPage = () => {
         }
     };
 
+    const fetchCurrentUser = async () => {
+        try {
+            const response = axios.get(`/api/auth/current`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUserId(response.data.userId);
+        } catch (_) {
+            console.log('Error fetching current user', _);
+        }
+    }
+
     useEffect(() => {
+        fetchCurrentUser();
         fetchProject();
         if (projectId) {
             dispatch(fetchBoardsByProject(projectIdNumber));

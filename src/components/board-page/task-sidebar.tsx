@@ -32,17 +32,14 @@ export const formatDateToDayMonthYear = (isoDate: string): string => {
     try {
         const date = new Date(isoDate);
 
-        // Проверяем, валидна ли дата
         if (isNaN(date.getTime())) {
             throw new Error("Невалидная дата");
         }
 
-        // Извлекаем день, месяц и год
-        const day = String(date.getUTCDate()).padStart(2, '0'); // Добавляем ведущий ноль
-        const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Месяцы начинаются с 0, поэтому +1
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
         const year = date.getUTCFullYear();
 
-        // Формируем строку в формате DD.MM.YYYY
         return `${day}.${month}.${year}`;
     } catch (error) {
         console.error("Ошибка при форматировании даты:", error);
@@ -151,12 +148,12 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
             <button className="close-button" onClick={handleClose}>×</button>
 
             <div className="task-sidebar-content">
-                <p className='task-sidebar-username'>{task.author}</p>
+                <p className='task-sidebar-username'>{task?.contributors?.[0]?.userName}</p>
                 <h2 className='task-sidebar-title'>{task.title}</h2>
 
                 <div className='task-sidebar-short-info-container'>
                     <div className='task-sidebar-short-info'><p>Создатель</p><p>{task.author}</p></div>
-                    <div className='task-sidebar-short-info'><p>Исполнитель</p><p>{task.contributor || task.contributors[0] || 'Не задан'}</p></div>
+                    <div className='task-sidebar-short-info'><p>Исполнитель</p><p>{task?.contributors?.[0]?.userName || 'Не задан'}</p></div>
                     <div className='task-sidebar-short-info'><p>Дата создания</p><p>{formatDateToDayMonthYear(task.startDate)}</p></div>
                     <div className='task-sidebar-short-info'><p>Дедлайн</p><p>{formatDateToDayMonthYear(task.expectedEndDate)}</p></div>
                     <div className='task-sidebar-short-info'><p>Приоритет</p><p style={{backgroundColor: getTaskPriorityColor(task.priority)}} className='task-sidebar-priority'>{task.priorityText}</p></div>

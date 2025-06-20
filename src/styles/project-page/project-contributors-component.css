@@ -17,12 +17,12 @@
 .user-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 16px 0;
-    height: 210px;
+    margin: 0;
+    max-height: 165px;
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    width: 100%; /* Лучше использовать 100%, если родитель ограничивает */
+    width: 100%;
 
     /* Стилизация скроллбара для WebKit */
     scrollbar-width: thin;              /* Firefox */

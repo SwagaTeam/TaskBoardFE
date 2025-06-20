@@ -46,7 +46,7 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
 
         if (!emailRegex.test(email)) {
             setShakeError(true);
-            setTimeout(() => setShakeError(false), 500); // сбрасываем эффект через 0.5 сек
+            setTimeout(() => setShakeError(false), 500);
             return;
         }
 
@@ -120,7 +120,7 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
                             <div className="user-role">{user.role || ''}</div>
                         </div>
 
-                        {user.role !== "Создатель" && (<div className="project-user-actions">
+                        {user.role !== "Создатель" &&  (<div className="project-user-actions">
                             <button onClick={() => setEditingUserId(user.id)}>
                                 <MoreVertical size={20} />
                             </button>

@@ -5,6 +5,8 @@ import { formatDateToDayMonth } from '../../utils.ts';
 import { Task } from '../../pages/board-page';
 import {getTaskPriorityColor} from "../../utils";
 import {useEffect} from "react";
+import {rebuildFilePath} from "../../utils.ts";
+import defaultAvatar from '../../assets/user-avatar.webp';
 
 interface TaskComponentProps {
     task: Task;
@@ -20,12 +22,12 @@ export const TaskComponent = ({ task }: TaskComponentProps) => {
             <div className="task-first-sect">
                 <div className="task-text-container">
                     <button onClick={() => {}} className="task-username">
-                        {task?.contributor || task?.contributors[0] || 'Не задан'}
+                        {task?.contributors?.[0]?.userName || 'Не задан'}
                     </button>
                     <p className="task-text">{task.title}</p>
                 </div>
-                {task.userAvatar && (
-                    <img className="task-user-avatar" src={task.userAvatar} alt="Аватар профиля" />
+                {task?.contributors?.[0]?.imagePath && (
+                    <img className="task-user-avatar" src={rebuildFilePath(task?.contributors?.[0]?.imagePath, 0) || defaultAvatar} alt="Аватар профиля" />
                 )}
             </div>
             <div>

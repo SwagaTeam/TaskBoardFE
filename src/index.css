@@ -10,6 +10,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #141f29;
 }
 
 a {
@@ -29,6 +30,8 @@ body, html {
   color: white;
   background-color: #141F29;
 }
+
+
 
 h1 {
   font-size: 80px;

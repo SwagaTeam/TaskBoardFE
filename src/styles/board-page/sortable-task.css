@@ -126,3 +126,60 @@
 .confirm-modal button:last-of-type:hover {
     background-color: #555;
 }
+
+
+.user-list-modal {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #1e2a36;
+    color: #cfcfcf;
+    padding: 10px 10px 0 10px;
+    border-radius: 10px;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 200px;
+}
+
+.user-list-modal h4{
+    margin: 0;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.user-list-modal button {
+    font-family: Inter, sans-serif;
+    background: none;
+    border: none;
+    color: #c3c3c3;
+    background: #294460;
+    width: 100%;
+    padding: 4px 6px 4px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.user-list-modal img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: auto;
+}
+
+.user-list-modal ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.user-list-modal li {
+    margin: 0 0 5px 0;
+}
+
+.user-list-modal button:hover {
+    background: #345373;
+}

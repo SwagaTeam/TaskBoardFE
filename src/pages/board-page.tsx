@@ -26,10 +26,15 @@ export interface Task {
     category: string;
     priority: number;
     priorityText: string;
-    contributor: string;
     businessId: number;
     itemTypeId: number;
-    contributors: [string];
+    contributors: [Contributor];
+    projectId: number;
+}
+
+interface Contributor {
+    userName: string;
+    imagePath: string;
 }
 
 interface BoardPageProps {
@@ -65,7 +70,6 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
             const formattedTasks: Task[] = data.map((item: any) => ({
                 id: item.id.toString(),
                 author: item.author,
-                userAvatar: defaultAvatar,
                 title: item.title,
                 description: item.description,
                 startDate: item.startDate,
@@ -73,13 +77,14 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 category: item.status.name,
                 priority: item.priority,
                 priorityText: item.priorityText,
-                contributor: item.contributor,
                 contributors: item.contributors,
                 businessId: item.businessId,
                 itemTypeId: item.itemTypeId,
+                projectId: item.projectId,
             }));
 
             setTaskList(formattedTasks);
+            console.log(formattedTasks);
         } catch (error) {
             console.error("Ошибка при загрузке задач:", error);
         }

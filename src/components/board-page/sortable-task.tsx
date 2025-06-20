@@ -2,11 +2,21 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskComponent } from "./task-component";
 import { Task } from "../../pages/board-page";
-import {CSSProperties, useEffect, useState} from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { GripVertical } from "lucide-react";
+import defaultAvatar from "../../assets/user-avatar.webp"
+import {rebuildFilePath} from "../../utils.ts";
 
 import MenuIcon from '../../assets/menu.svg';
 import '../../styles/board-page/sortable-task.css';
+
+interface User {
+    id: number;
+    username: string;
+    imagePath: string;
+    email: string;
+    role: string;
+}
 
 interface SortableTaskProps {
     task: Task;
@@ -33,48 +43,53 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [isUserListOpen, setIsUserListOpen] = useState(false);
+    const [projectUsers, setProjectUsers] = useState<User[]>([]);
 
     const token = localStorage.getItem('token');
-    const [userId, setUserId] = useState(0);
 
-    const getUserId = async () => {
+    const fetchProjectUsers = async () => {
         try {
-            const response = await fetch(`/api/auth/current`, {
-                method: 'GET',
+            const response = await fetch(`/api/project/get-users-in-project/${task.projectId}`, {
                 headers: {
-                    'accept': 'text/plain',
-                    'Authorization': `Bearer ${token}`
+                    'accept': '*/*',
+                    'Authorization': `Bearer ${token}`,
                 }
             });
-            setUserId(response.userId);
-        }
-        catch (error) {
-            console.log(error);
+            if (response.ok) {
+                const data = await response.json();
+                setProjectUsers(data);
+            } else {
+                alert("Не удалось получить список пользователей проекта");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Ошибка при получении пользователей");
         }
     };
 
     const handleDeleteTask = async () => {
         try {
             const response = await fetch(`/api/item/delete/${task.id}`, {
-                method: 'DELETE',
+            method: 'DELETE',
                 headers: {
-                    'accept': 'text/plain',
+                'accept': 'text/plain',
                     'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                onTasksChange();
             }
-        } catch (error) {
-            console.error(error);
-            alert('Ошибка запроса');
-        }
-        setIsConfirmDeleteOpen(false);
-        setIsMenuOpen(false);
-    };
+        });
 
-    const handleAssignToSelf = async () => {
+        if (response.ok) {
+            onTasksChange();
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Ошибка запроса');
+    }
+    setIsConfirmDeleteOpen(false);
+    setIsMenuOpen(false);
+};
+
+    const handleAssignUser = async (userId: number) => {
         try {
             const response = await fetch(`/api/item/add-user-to-item/${task.id}`, {
                 method: 'POST',
@@ -85,14 +100,17 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                 },
                 body: userId.toString(),
             });
+
             if (response.ok) {
                 onTasksChange();
+            } else {
+                alert("Не удалось назначить исполнителя");
             }
         } catch (error) {
             console.error(error);
             alert('Ошибка запроса');
         }
-
+        setIsUserListOpen(false);
         setIsMenuOpen(false);
     };
 
@@ -114,12 +132,33 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
             console.error(error);
             alert('Ошибка запроса');
         }
-
         setIsMenuOpen(false);
     };
 
     useEffect(() => {
-        getUserId();
+        const handleClickOutside = (event: MouseEvent) => {
+            const modalElements = document.querySelectorAll(
+                '.task-menu-modal, .confirm-modal, .user-list-modal'
+            );
+
+            let isClickInside = false;
+            modalElements.forEach(modal => {
+                if (modal.contains(event.target as Node)) {
+                    isClickInside = true;
+                }
+            });
+
+            if (!isClickInside) {
+                setIsMenuOpen(false);
+                setIsConfirmDeleteOpen(false);
+                setIsUserListOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     return (
@@ -142,7 +181,14 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                 {isMenuOpen && (
                     <div className="task-menu-modal">
                         <button onClick={() => setIsConfirmDeleteOpen(true)}>Удалить задачу</button>
-                        <button onClick={handleAssignToSelf}>Назначить себя исполнителем</button>
+                        {!task?.contributors?.[0]?.userName && (<button
+                            onClick={async () => {
+                                await fetchProjectUsers();
+                                setIsUserListOpen(true);
+                            }}
+                        >
+                            Назначить исполнителя
+                        </button>)}
                         <button>Заархивировать</button>
                         <button onClick={markAsBug}>Отметить как баг</button>
                     </div>
@@ -157,7 +203,22 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                 </div>
             )}
 
-            {/* onClick только на компонент задачи */}
+            {isUserListOpen && (
+                <div className="user-list-modal">
+                    <h4>Выберите исполнителя</h4>
+                    <ul>
+                        {projectUsers.map(user => (
+                            <li key={user.id}>
+                                <button onClick={() => handleAssignUser(user.id)}>
+                                    <span>{user.username}</span>
+                                    <img src={rebuildFilePath(user?.imagePath) || defaultAvatar} />
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             <div onClick={onClick}>
                 <TaskComponent task={task} />
             </div>
