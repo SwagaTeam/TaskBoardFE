@@ -30,7 +30,7 @@ export const SidebarComponent = ({ user }: SidebarComponentProps) => {
     return (
         <div className='sidebar'>
             <div className="profile-info">
-                <img className="profile-image" src={rebuildFilePath(user?.imagePath) || defaultAvatar} alt="Ваш профиль" />
+                <img className="profile-image" src={rebuildFilePath(user?.imagePath, 0) || defaultAvatar} alt="Ваш профиль" />
                 <button onClick={() => {navigate('/home/settings')}}>
                     {user?.username || ''}
                 </button>

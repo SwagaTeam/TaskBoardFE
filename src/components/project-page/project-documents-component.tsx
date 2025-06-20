@@ -114,7 +114,7 @@ export const ProjectDocumentsComponent = ({ projectId }: ProjectDocumentsCompone
                     documents.map(doc => (
                         <a
                             key={doc.id}
-                            href={rebuildFilePath(doc.filePath)}
+                            href={rebuildFilePath(doc.filePath, 1)}
                             target="_blank"
                             className="document-tile"
                         >

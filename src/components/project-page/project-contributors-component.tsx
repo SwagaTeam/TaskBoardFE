@@ -114,7 +114,7 @@ export const ProjectContributorsComponent = ({ projectId }: ProjectContributorsP
             <ul className="user-list">
                 {users?.map(user => (
                     <li key={user.id} className="user-item">
-                        <img className="user-avatar" src={rebuildFilePath(user.imagePath) || defaultAvatar} alt="avatar" />
+                        <img className="user-avatar" src={rebuildFilePath(user.imagePath, 0) || defaultAvatar} alt="avatar" />
                         <div className="user-info">
                             <div className="user-name">{user.username} ({user.email})</div>
                             <div className="user-role">{user.role || ''}</div>

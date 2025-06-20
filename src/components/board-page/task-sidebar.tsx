@@ -64,7 +64,7 @@ const CommentItem = ({ comment }: { comment: Comment }) => {
                     {comment.attachments.map((att) => (
                         <a
                             key={att.id}
-                            href={rebuildFilePath(att.filePath)}
+                            href={rebuildFilePath(att.filePath, 2)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="comment-attachment"

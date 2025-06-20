@@ -131,7 +131,7 @@ export const UserSettings = () => {
             <div className="user-settings-pic-sect">
                     <img
                         className='user-settings-avatar'
-                        src={preview || rebuildFilePath(user?.imagePath) || defaultAvatar}
+                        src={preview || rebuildFilePath(user?.imagePath, 0) || defaultAvatar}
                         alt="Аватар пользователя"
                     />
                     <span>{user?.username || ''}</span>

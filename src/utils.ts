@@ -34,12 +34,17 @@ export const getTaskPriorityColor = (priority: number): string => {
     }
 };
 
-export const rebuildFilePath = (path: string) => {
-    if (!path) {
-        return '';
-    }
-    if (path.startsWith('/')) {
-        return `/api${path}`
-    }
-    return '';
-}
+export const rebuildFilePath = (filePath: string, fileTypeId: number): string => {
+    if (!filePath?.trim()) return '';
+
+    const fileTypes = {
+        0: 'avatar',
+        1: 'doc',
+        2: 'attachment'
+    } as const;
+
+    const type = fileTypes[fileTypeId as keyof typeof fileTypes] || 'attachment';
+    const normalizedPath = filePath.replace(/^\/+/, '');
+
+    return `/api/${type}s/${normalizedPath}`;
+};
