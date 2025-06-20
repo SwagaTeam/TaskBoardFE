@@ -120,6 +120,17 @@ export const UserSettings = () => {
         }
     };
 
+    const getAvatarData = () => {
+        if (!user?.imagePath) return defaultAvatar;
+
+        try {
+            const buffer = readFile(user.imagePath, 'avatar');
+            return URL.createObjectURL(new Blob([buffer]));
+        } catch (e) {
+            return defaultAvatar;
+        }
+    };
+
     useEffect(() => {
         document.title = 'Настройки';
         dispatch(fetchCurrentUser());
@@ -131,7 +142,7 @@ export const UserSettings = () => {
             <div className="user-settings-pic-sect">
                     <img
                         className='user-settings-avatar'
-                        src={preview || rebuildImagePath(user?.imagePath) || defaultAvatar}
+                        src={preview || getAvatarData()}
                         alt="Аватар пользователя"
                     />
                     <span>{user?.username || ''}</span>
