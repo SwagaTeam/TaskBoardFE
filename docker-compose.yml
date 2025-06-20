@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["sh", "-c", "./wait-for-it.sh gateway-service:5000 -- npm run dev"]
+    command: ["sh", "-c", "npm run dev"]
     image: ghcr.io/swagateam/frontend:1.0.4
     ports:
       - 5173:5173
@@ -27,7 +27,7 @@ services:
     image: ghcr.io/swagateam/nginx:1.0.3  
     ports:
       - "443:443" 
-    command: ["sh", "-c", "./wait-for-it.sh client:5173 -- nginx -g 'daemon off;'"]
+    command: ["sh", "-c", "nginx -g 'daemon off;'"]
     volumes:
       - /nginx/ssl:/etc/nginx/ssl 
       - /etc/letsencrypt:/etc/letsencrypt 
