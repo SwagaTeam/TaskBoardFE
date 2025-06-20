@@ -26,7 +26,11 @@ export default defineConfig(({ mode }) => {
       allowedHosts: [
         "boardly.ru", // Разрешенный хост
         "localhost",   // Обычно тоже нужно оставить
-      ]
+      ],
+      hmr: {
+        protocol: 'wss',
+        host: 'boardly.ru',
+      },
     },
   };
 });

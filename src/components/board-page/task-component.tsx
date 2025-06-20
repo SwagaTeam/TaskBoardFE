@@ -26,8 +26,16 @@ export const TaskComponent = ({ task }: TaskComponentProps) => {
                     </button>
                     <p className="task-text">{task.title}</p>
                 </div>
-                {task?.contributors?.[0]?.imagePath && (
-                    <img className="task-user-avatar" src={rebuildFilePath(task?.contributors?.[0]?.imagePath, 0) || defaultAvatar} alt="Аватар профиля" />
+                {task?.contributors?.[0] && (
+                    <img
+                        className="task-user-avatar"
+                        src={
+                            task.contributors[0].imagePath
+                                ? rebuildFilePath(task.contributors[0].imagePath, 0)
+                                : defaultAvatar
+                        }
+                        alt="Аватар профиля"
+                    />
                 )}
             </div>
             <div>
