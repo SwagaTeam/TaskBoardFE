@@ -58,7 +58,7 @@ export const InviteRedirectPage = () => {
 
     return (
         <div className="invite-loader">
-            <p>Обработка приглашения...</p>
+        <p>Обработка приглашения...</p>
         </div>
     );
 };
