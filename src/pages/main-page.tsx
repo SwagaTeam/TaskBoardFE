@@ -27,7 +27,7 @@ export const MainPage = () => {
         <div className="main-page-root">
             <div className="main-page">
                 <SidebarComponent user={user} />
-                <div style={{ width: "1150px" }}>
+                <div className="content-wrapper">
                     <Outlet />
                 </div>
             </div>
