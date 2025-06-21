@@ -116,6 +116,7 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
 
     const markAsBug = async () => {
         try {
+            const newItemTypeId = task.itemTypeId === 3 ? 1 : 3; // Если уже баг (3), ставим 1 (обычная задача)
             const response = await fetch(`/api/item/change-itemType/${task.id}`, {
                 method: 'POST',
                 headers: {
@@ -123,7 +124,7 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: '3',
+                body: newItemTypeId.toString(),
             });
             if (response.ok) {
                 onTasksChange();
@@ -190,7 +191,9 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                             Назначить исполнителя
                         </button>)}
                         <button>Заархивировать</button>
-                        <button onClick={markAsBug}>Отметить как баг</button>
+                        <button onClick={markAsBug}>
+                            {task.itemTypeId === 3 ? 'Убрать отметку баг' : 'Отметить как баг'}
+                        </button>
                     </div>
                 )}
             </div>
@@ -211,7 +214,7 @@ export const SortableTask = ({ task, activeId, onClick, onTasksChange }: Sortabl
                             <li key={user.id}>
                                 <button onClick={() => handleAssignUser(user.id)}>
                                     <span>{user.username}</span>
-                                    <img src={rebuildFilePath(user?.imagePath) || defaultAvatar} />
+                                    <img src={rebuildFilePath(user?.imagePath, 0) || defaultAvatar} />
                                 </button>
                             </li>
                         ))}
