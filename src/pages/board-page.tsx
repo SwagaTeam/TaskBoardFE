@@ -9,11 +9,11 @@ import { SortableTask } from "../components/board-page/sortable-task";
 import { TaskSidebar } from "../components/board-page/task-sidebar";
 import { BoardSelectPanel } from "../components/board-page/board-select-panel";
 import { SortButton } from "../components/board-page/sort-button";
-import defaultAvatar from "../assets/user-avatar.webp";
 import "../styles/board-page/board-page.css";
 import {CreateTaskModal} from "../components/create-task-modal.tsx";
 import {useParams} from "react-router-dom";
 import {LoadingColumn} from "../components/board-page/loading-column.tsx";
+import {ListPlus} from 'lucide-react'
 
 export interface Task {
     id: string;
@@ -54,6 +54,9 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
 
     const statuses = useSelector((state: RootState) => state.statuses.byBoard[boardId] || []);
     const statusesStatus = useSelector((state: RootState) => state.statuses.status);
+    const [isCreatingStatus, setIsCreatingStatus] = useState(false);
+    const [newStatus, setNewStatus] = useState({ name: '', isDone: false, isRejected: false });
+
 
     const fetchTasks = async () => {
         try {
@@ -135,7 +138,6 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
             );
 
             try {
-                // Отправляем запрос на сервер
                 const response = await fetch(`/api/item/change-status/${activeTask.id}`, {
                     method: "POST",
                     headers: {
@@ -151,17 +153,13 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 }
             } catch (error) {
                 console.error("Ошибка при отправке запроса на изменение статуса:", error);
-                // Откатываем изменения в случае ошибки
                 setTaskList(previousTaskList);
-                // Можно добавить уведомление об ошибке
-                // toast.error("Не удалось изменить статус задачи.");
             }
         } else if (isOverTask) {
             if (activeTask.category !== isOverTask.category) {
                 const newStatus = statuses.find((status) => status.name === isOverTask.category);
                 if (!newStatus) return;
 
-                // Оптимистичное обновление: сразу меняем категорию задачи
                 setTaskList((prev) =>
                     prev.map((task) =>
                         task.id === active.id
@@ -171,7 +169,6 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 );
 
                 try {
-                    // Отправляем запрос на сервер
                     const response = await fetch(`/api/item/change-status/${activeTask.id}`, {
                         method: "POST",
                         headers: {
@@ -196,7 +193,6 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 const newOrdered = arrayMove(tasksInCategory, oldIndex, newIndex);
                 const updatedTasks = taskList.filter((t) => t.category !== activeTask.category);
                 setTaskList([...updatedTasks, ...newOrdered]);
-                // Если требуется обновить порядок на сервере, можно добавить запрос здесь
             }
         }
     };
@@ -210,6 +206,31 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
             </div>
         );
     };
+
+    const handleCreateStatus = async () => {
+        const token = localStorage.getItem("token");
+        const response = await fetch('/api/board/create-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                id: 0,
+                name: newStatus.name,
+                boardId: boardId,
+                order: 0,
+                isDone: newStatus.isDone,
+                isRejected: newStatus.isRejected
+            })
+        });
+        if (response.ok) {
+            setIsCreatingStatus(false);
+            setNewStatus({ name: '', isDone: false, isRejected: false });
+        } else {
+            alert("Ошибка при создании статуса");
+        }
+    }
 
     if (!boardId) {
         return (
@@ -232,6 +253,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                 onDragEnd={handleDragEnd}
                 sensors={sensors}
             >
+
                 <div className="board-columns">
                     {statusesStatus === 'loading' ? (
                         <div className="loading-columns-container">
@@ -267,7 +289,10 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
 
                                                             const sorted = [...currentTasks].sort((b, a) => {
                                                                 if (sortType === 'date') {
-                                                                    return new Date(b.date).getTime() - new Date(a.date).getTime();
+                                                                    return new Date(b.expectedEndDate).getTime() - new Date(a.expectedEndDate).getTime();
+                                                                }
+                                                                if (sortType === 'priority') {
+                                                                    return a.priority - b.priority;
                                                                 }
                                                                 return 0;
                                                             });
@@ -278,6 +303,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                                                 />
                                             </div>
 
+
                                             <DroppableColumn id={status.name} status={status}>
                                                 <SortableContext
                                                     items={tasks.map((t) => t.id)}
@@ -287,7 +313,7 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                                                         <button
                                                             className="column-add-task-btn"
                                                             onClick={() => {
-                                                                setSelectedStatusId(status.id); // Сохраняем statusId
+                                                                setSelectedStatusId(status.id);
                                                                 setIsModalOpen(true);
                                                             }}
                                                         >
@@ -308,6 +334,62 @@ export const BoardPage = ({ tasks = [] }: BoardPageProps) => {
                                         </div>
                                     );
                                 })}
+
+                                {isCreatingStatus ? (
+                                    <div className="add-status-column">
+                                    <div className="create-status-form">
+                                        <h4>Добавить новую колонку</h4>
+                                        <input
+                                            type="text"
+                                            placeholder="Название"
+                                            value={newStatus.name}
+                                            onChange={(e) => setNewStatus({ ...newStatus, name: e.target.value })}
+                                        />
+                                        <div style={{ display: 'flex', flexDirection: 'row', gap: '22px', marginTop: '20px', marginBottom: '20px' }}>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={newStatus.isDone}
+                                                    onChange={(e) => {
+                                                        setNewStatus({
+                                                            ...newStatus,
+                                                            isDone: e.target.checked,
+                                                            isRejected: e.target.checked ? false : newStatus.isRejected
+                                                        });
+                                                    }}
+                                                    disabled={newStatus.isRejected}
+                                                />
+                                                Содержит завершенные задачи
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={newStatus.isRejected}
+                                                    onChange={(e) => {
+                                                        setNewStatus({
+                                                            ...newStatus,
+                                                            isRejected: e.target.checked,
+                                                            isDone: e.target.checked ? false : newStatus.isDone
+                                                        });
+                                                    }}
+                                                    disabled={newStatus.isDone}
+                                                />
+                                                Содержит отклоненные задачи
+                                            </label>
+                                        </div>
+
+                                        <div style={{ display: "flex", gap: "5px" }}>
+                                            <button onClick={handleCreateStatus}>Создать</button>
+                                            <button onClick={() => setIsCreatingStatus(false)}>Отмена</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                ) : (
+                                    <button onClick={() => setIsCreatingStatus(true)} className="add-column-button">
+                                        <ListPlus size={32}/>
+                                    </button>
+                                )}
+
                             {isModalOpen && selectedStatusId !== null && (
                                 <CreateTaskModal
                                     projectId={projectId}

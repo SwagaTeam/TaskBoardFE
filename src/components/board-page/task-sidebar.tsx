@@ -66,7 +66,7 @@ const CommentItem = ({ comment }: { comment: Comment }) => {
                             rel="noopener noreferrer"
                             className="comment-attachment"
                         >
-                            📎 Вложение
+                            <Paperclip size={14}/> Вложение
                         </a>
                     ))}
                 </div>
@@ -81,16 +81,17 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
     const [attachment, setAttachment] = useState<File | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [isSending, setIsSending] = useState(false);
 
     const handleAttachClick = () => {
-        fileInputRef.current?.click(); // симулируем клик по скрытому инпуту
+        fileInputRef.current?.click();
     };
 
     useEffect(() => {
         const timer = setTimeout(() => setVisible(true), 10);
         fetchComments();
         return () => clearTimeout(timer);
-    }, []);
+    }, [task.id]);
 
     const fetchComments = async () => {
         const token = localStorage.getItem('token');
@@ -114,7 +115,7 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
 
         const token = localStorage.getItem('token');
         if (!token || !commentText.trim()) return;
-
+        setIsSending(true);
         const formData = new FormData();
         formData.append('itemId', String(task.id));
         formData.append('text', commentText);
@@ -122,19 +123,26 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
             formData.append('attachment', attachment);
         }
 
-        const response = await fetch('/api/item/comment', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-        });
+        try {
+            const response = await fetch('/api/item/comment', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+            });
 
-        if (response.ok) {
-            setCommentText('');
-            setAttachment(null);
-            fetchComments();
+            if (response.ok) {
+                setCommentText('');
+                setAttachment(null);
+                fetchComments();
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsSending(false);
         }
+
     };
 
     const handleClose = () => {
@@ -170,7 +178,18 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
                     </div>
                 </div>
             </div>
-
+            {attachment && (
+                <div className="comment-attachment-preview">
+                    <span>{attachment.name}</span>
+                    <button
+                        type="button"
+                        className="remove-attachment-btn"
+                        onClick={() => setAttachment(null)}
+                    >
+                        ×
+                    </button>
+                </div>
+            )}
             {/* Фиксированная форма */}
             <form onSubmit={handleCommentSubmit} className="comment-form">
                 <div className="comment-input-wrapper">
@@ -188,8 +207,17 @@ export const TaskSidebar = ({ task, onClose }: TaskSidebarProps) => {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                     />
-                    <button type="submit" className="comment-send-btn">
-                        <SendHorizontal color={"#91ADC9"} size={20} />
+                    <button
+                        type="submit"
+                        className="comment-send-btn"
+                        disabled={!commentText.trim() || isSending}
+                        title={!commentText.trim() ? "Введите текст комментария" : ""}
+                    >
+                        {isSending ? (
+                            <span className="task-sidebar-spinner" />
+                        ) : (
+                            <SendHorizontal color={"#91ADC9"} size={20} />
+                        )}
                     </button>
                 </div>
                 <input

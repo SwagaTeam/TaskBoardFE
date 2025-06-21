@@ -182,7 +182,7 @@
 }
 
 .comment-attachment {
-    font-size: 0.85rem;
+    font-size: 13px;
     text-decoration: none;
     color: #555;
 }
@@ -224,4 +224,50 @@
 
 .comment-file-input {
     display: none;
+}
+
+
+.comment-attachment-preview {
+    display: flex;
+    align-items: center;
+    background-color: #1f2e3e;
+    color: #cfd9e3;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    margin-left: 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    max-width: 488px;
+    z-index: 5;
+
+}
+
+.remove-attachment-btn {
+    background: none;
+    border: none;
+    color: #ff5f5f;
+    font-size: 16px;
+    margin-left: auto;
+    margin-top: 3px;
+    cursor: pointer;
+}
+.comment-send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.task-sidebar-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(145, 173, 201, 0.4);
+    border-top-color: #91ADC9;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }

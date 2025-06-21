@@ -3,14 +3,14 @@ import { FunnelPlus } from 'lucide-react';
 import '../../styles/board-page/sort-button.css';
 
 export interface SortButtonProps {
-    onSortChange: (sortType: 'default' | 'date') => void;
+    onSortChange: (sortType: 'default' | 'date' | 'priority') => void;
 }
 
 export const SortButton = ({ onSortChange }: SortButtonProps) => {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const handleSort = (type: 'default' | 'date') => {
+    const handleSort = (type: 'default' | 'date'| 'priority') => {
         onSortChange(type);
         setOpen(false);
     };
@@ -36,8 +36,8 @@ export const SortButton = ({ onSortChange }: SortButtonProps) => {
             </button>
             {open && (
                 <div className="sort-dropdown">
-                    <div onClick={() => handleSort('default')}>по умолчанию</div>
-                    <div onClick={() => handleSort('date')}>по дедлайну</div>
+                    <div onClick={() => handleSort('date')}>По дедлайну</div>
+                    <div onClick={() => handleSort('priority')}>По приоретету</div>
                 </div>
             )}
         </div>

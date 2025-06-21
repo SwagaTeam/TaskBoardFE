@@ -22,12 +22,16 @@ export default defineConfig(({ mode }) => {
       },
       host: "0.0.0.0",
       port: 5173,
+      protocol: 'wss',
       // Добавьте allowedHosts здесь
       allowedHosts: [
         "boardly.ru", // Разрешенный хост
         "localhost",   // Обычно тоже нужно оставить
       ],
-      hmr: false,
+      hmr: {
+        clientPort: 443,
+        host: 'boardly.ru'
+      },
     },
   };
 });
