@@ -13,7 +13,6 @@ const navigation_List: NavigationItem = {
     "Доски": "boards",
     "Задачи": "tasks",
     "Настройки": "settings",
-    "История": "history",
 } as const
 
 interface SidebarComponentProps {

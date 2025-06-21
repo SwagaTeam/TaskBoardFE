@@ -1,5 +1,5 @@
 import {Task} from "../components/tasks-page/table-component.tsx";
-import {Sprint} from "../components/tasks-page/sprint-info-component.tsx";
+import {Sprint} from "../components/tasks-page/tasks-info-component.tsx";
 
 export const sprintMock: Sprint = {
     id: 1,

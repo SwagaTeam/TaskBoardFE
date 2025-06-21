@@ -25,8 +25,13 @@
     vertical-align: middle;
 }
 
+.task-table tbody tr{
+    font-size: 14px;
+    font-weight: 300;
+}
+
 .task-table tr:hover {
-    background-color: #0d263e;
+    background-color: #133453;
 }
 
 .task-table thead tr th {
@@ -49,12 +54,6 @@
     font-size: 0.8em;
     font-weight: 500;
 }
-
-.table-avatar {
-    width: 40px;
-    border-radius: 50%;
-}
-
 .tracker-wrapper {
     display: flex;
     align-items: center;
@@ -83,4 +82,65 @@
 
     text-align: right;
     color: #fff;
+}
+
+.timeleft-info span {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.tasks-table-go-board {
+    font-family: Inter, sans-serif;
+    background-color: #1b3349;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 8px;
+}
+
+.tasks-table-go-board {
+    font-family: Inter, sans-serif;
+    background-color: #1b3349;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 8px;
+    margin: 8px 0;
+}
+
+.tasks-table-go-board:hover {
+    background-color: #2a4e70;
+}
+
+.tasks-status-badge {
+    padding: 2px 0 3px 16px;
+    border-radius: 12px;
+}
+
+.sprint-info-component h2 {
+    font-size: 32px;
+    margin-bottom: 0;
+}
+.sprint-info-component p {
+    margin-top: -24px;
+    font-size: 16px;
+    color: #80ADDB;
+}
+.tabs   {
+    display: flex;
+    flex-direction: row;
+    margin-top: -15px;
+    margin-left: 670px;
+    padding: 0;
+}
+.tabs button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tabs button.active-tab {
+    color: #91ADC9;
 }

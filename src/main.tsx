@@ -42,7 +42,6 @@ createRoot(document.getElementById('root')!).render(
                 <Route path='boards' element={<BoardsTable />} />
                 <Route path='tasks' element={<TasksPage />} />
                 <Route path='settings' element={<UserSettings/>} />
-                <Route path='history' element={<BoardPage tasks={mockTasks}/>} />
             </Route>
 
             <Route path="/project/invite/:token" element={<InviteRedirectPage />} />

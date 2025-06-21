@@ -28,10 +28,7 @@ export default defineConfig(({ mode }) => {
         "boardly.ru", // Разрешенный хост
         "localhost",   // Обычно тоже нужно оставить
       ],
-      hmr: {
-        clientPort: 443,
-        host: 'boardly.ru'
-      },
+      hmr: true,
     },
   };
 });

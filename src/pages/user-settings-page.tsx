@@ -216,7 +216,7 @@ export const UserSettings = () => {
                 <button className="settings-sub-tab">
                     <div>
                         <span>Частые вопросы</span>
-                        <p>Об операторе и услугах связи</p>
+                        <p>О взаимодейсвтии с сервисом</p>
                     </div>
                     <div className="settings-go">&#8250;</div>
                 </button>

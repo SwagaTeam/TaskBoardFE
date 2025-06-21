@@ -72,7 +72,14 @@ export const BoardsTable = () => {
                         className="board-row"
                     >
                         <td>{board.name}</td>
-                        <td>{board.description}</td>
+                        <td style={{
+                            maxWidth: "300px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis"
+                        }}>
+                            {board.description}
+                        </td>
                         <td>{board.projectName}</td>
                         <td>{board.itemsCount}</td>
                         <td>{new Date(board.createdAt).toLocaleDateString("ru-RU")}</td>

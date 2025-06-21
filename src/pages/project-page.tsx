@@ -113,7 +113,7 @@ export const ProjectPage = () => {
         <div className='project-page-main-container'>
             <div className='project-page-header'>
                 <h2 className='project-title'>{project.name}</h2>
-                <div>
+                <div className='tabs'>
                     <button
                         onClick={() => setActiveTab("overview")}
                         className={activeTab === "overview" ? "active-tab" : ""}

@@ -49,3 +49,84 @@ export const rebuildFilePath = (filePath: string, fileTypeId: number): string =>
 
     return `/api/${type}/${normalizedPath}`;
 };
+
+export const calculateTimeLeft = (startDate: string, endDate: string) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date();
+
+    // Если дедлайн уже прошел
+    if (now > end) {
+        const overdue = now.getTime() - end.getTime();
+        const overdueDays = Math.floor(overdue / (1000 * 60 * 60 * 24));
+        const overdueHours = Math.floor((overdue % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        let overdueText = "Просрочено на ";
+        if (overdueDays > 0) {
+            overdueText += `${overdueDays} дн.`;
+        } else {
+            overdueText += `${Math.round(overdueHours)} ч.`;
+        }
+
+        return {
+            text: overdueText,
+            percentage: 100,
+            isOverdue: true,
+            overdueDays,
+            overdueHours
+        };
+    }
+
+    // Если задача еще не началась
+    if (now < start) {
+        return {
+            text: "Не начата",
+            percentage: 0,
+            isOverdue: false,
+            overdueDays: 0,
+            overdueHours: 0
+        };
+    }
+
+    const totalDuration = end.getTime() - start.getTime();
+    const elapsed = now.getTime() - start.getTime();
+    const remaining = end.getTime() - now.getTime();
+
+    const percentage = Math.min(100, Math.round((elapsed / totalDuration) * 100));
+
+    // Рассчитываем оставшееся время
+    const daysLeft = Math.floor(remaining / (1000 * 60 * 60 * 24));
+    const hoursLeft = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    let timeLeftText = "";
+    if (daysLeft > 0) {
+        timeLeftText = `${daysLeft} дн.`;
+    } else {
+        timeLeftText = `${Math.round(hoursLeft)} ч.`;
+    }
+
+    return {
+        text: timeLeftText,
+        percentage,
+        isOverdue: false,
+        overdueDays: 0,
+        overdueHours: 0
+    };
+};
+
+export const declinateTaskWord = (count: number) => {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+        return 'задач';
+    }
+
+    switch (lastDigit) {
+        case 1: return 'задача';
+        case 2:
+        case 3:
+        case 4: return 'задачи';
+        default: return 'задач';
+    }
+};
